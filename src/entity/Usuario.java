@@ -20,6 +20,7 @@ public class Usuario {
     
     private ObjectId id;
     private String nombre;
+    private String correo, contrasenia;
     private int edad;
     private Sexo sexo;
     private List<GenerosMusicales> generosMusicales;
@@ -29,24 +30,29 @@ public class Usuario {
     public Usuario() {
     }
 
-    public Usuario(String nombre, int edad, Sexo sexo, List<GenerosMusicales> generosMusicales, Date fechaNacimiento, List<String> peliculas) {
+    public Usuario(String nombre, String correo, String contrasenia, int edad, Sexo sexo, List<GenerosMusicales> generosMusicales, Date fechaNacimiento, List<String> peliculas) {
         this.nombre = nombre;
+        this.correo = correo;
+        this.contrasenia = contrasenia;
         this.edad = edad;
         this.sexo = sexo;
         this.generosMusicales = generosMusicales;
         this.fechaNacimiento = fechaNacimiento;
         this.peliculas = peliculas;
     }
-    
-    public Usuario(ObjectId id, String nombre, int edad, Sexo sexo, List<GenerosMusicales> generosMusicales, Date fechaNacimiento, List<String> peliculas) {
+
+    public Usuario(ObjectId id, String nombre, String correo, String contrasenia, int edad, Sexo sexo, List<GenerosMusicales> generosMusicales, Date fechaNacimiento, List<String> peliculas) {
         this.id = id;
         this.nombre = nombre;
+        this.correo = correo;
+        this.contrasenia = contrasenia;
         this.edad = edad;
         this.sexo = sexo;
         this.generosMusicales = generosMusicales;
         this.fechaNacimiento = fechaNacimiento;
         this.peliculas = peliculas;
     }
+
 
     public Usuario(ObjectId id) {
         this.id = id;
@@ -109,6 +115,23 @@ public class Usuario {
         this.peliculas = peliculas;
     }
 
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
+
+    public String getContrasenia() {
+        return contrasenia;
+    }
+
+    public void setContrasenia(String contrasenia) {
+        this.contrasenia = contrasenia;
+    }
+
+    
     @Override
     public String toString() {
         return "Usuario{" + "id=" + id + ", nombre=" + nombre + ", edad=" + edad + ", sexo=" + sexo + ", generosMusicales=" + generosMusicales + ", fechaNacimiento=" + fechaNacimiento + ", peliculas=" + peliculas + '}';
