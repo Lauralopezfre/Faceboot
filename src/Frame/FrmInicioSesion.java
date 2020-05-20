@@ -5,17 +5,44 @@
  */
 package Frame;
 
+import Repositorios.Control;
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientOptions;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import entity.Usuario;
+import javax.swing.JOptionPane;
+import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
+import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
+import org.bson.codecs.configuration.CodecRegistry;
+import org.bson.codecs.pojo.PojoCodecProvider;
+
 /**
  *
  * @author laura
  */
 public class FrmInicioSesion extends javax.swing.JFrame {
-
+    Control control;
+    MongoDatabase basedatos;
+    MongoCollection<Usuario> usuarios;
     /**
      * Creates new form FrmInicioSesion
      */
     public FrmInicioSesion() {
         initComponents();
+        this.setLocationRelativeTo(null);
+        control = new Control();
+        
+        //Conexión y creación de la base de datos
+        CodecRegistry pojo = fromRegistries(MongoClient.getDefaultCodecRegistry(),
+                fromProviders(PojoCodecProvider.builder().automatic(true).build()));
+        
+        MongoClient conexion = new MongoClient("localhost", MongoClientOptions.builder().codecRegistry(pojo).build());
+        basedatos = conexion.getDatabase("Faceboot");
+        
+        //Se crea la coleccion
+         usuarios = control.getUsuarioRepository().crearCollection(basedatos);
+        
     }
 
     /**
@@ -171,17 +198,29 @@ public class FrmInicioSesion extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-        // TODO add your handling code here:
+        ingresar();
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        // TODO add your handling code here:
+        System.exit(0);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
-        // TODO add your handling code here:
+        FrmUsuario fmUsuario = new FrmUsuario();
+        fmUsuario.show();
+        setVisible(false);
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
+    
+    public void ingresar(){
+        if(control.getUsuarioRepository().ingresar(usuarios, txtCorreoElectronico.getText(), txtContrasenia.getText())!= null){
+            //Se ingresa a la pantalla de inicio
+        }else{
+            //Mensaje de contraseña o correo incorrectos
+        }
+        
+        
+    }
     /**
      * @param args the command line arguments
      */

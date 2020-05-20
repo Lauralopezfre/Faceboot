@@ -102,4 +102,27 @@ public class UsuarioRepository extends BaseRepository<Usuario>{
         ArrayList<Usuario> usuarios = new ArrayList<>();
         return collection.find().into(usuarios);
     }
+    
+    /**
+     * Método que se encarga de validar el correo y la contraseña al iniciar sesión.
+     * @param collection Colección donde se buscara al usuario que pertenezca a esa contraseña y correo
+     * @param correo Correo electronico que se va a validar.
+     * @param contrasenia Contraseña que se va a validar
+     * @return Usuario que ingreso al sistema.
+     */
+    public Usuario ingresar(MongoCollection<Usuario> collection, String correo, String contrasenia){
+        //Obtiene el usuario de la base de datos con el correo dado
+        ArrayList<Usuario> usuario = new ArrayList<>();
+        collection.find(Filters.regex("Correo", correo, "i")).into(usuario);
+        
+        //Valida que la contraseña pertenezca ese usuario, si es asi regresa el usuario, sino regresa null
+        for (Usuario usuario1 : usuario) {
+            if(usuario1.getContrasenia().equalsIgnoreCase(contrasenia)){
+                return usuario1;
+            }
+            break;
+        }
+        return null;
+    }
+    
 }
