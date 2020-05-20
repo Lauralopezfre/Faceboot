@@ -75,7 +75,7 @@ public class PostRepository extends BaseRepository<Post>{
     @Override
     public Post actualizar(MongoCollection<Post> collection, Post entidad){
         //Duda en el actualizar
-        return collection.updateOne(eq("_id", entidad.getId()), entidad);
+        return collection.findOneAndReplace(eq("_id", entidad.getId()), entidad);
     }
     
     /**

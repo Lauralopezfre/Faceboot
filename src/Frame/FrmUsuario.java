@@ -5,6 +5,13 @@
  */
 package Frame;
 
+import com.mongodb.client.MongoDatabase;
+import entity.Usuario;
+import java.awt.Frame;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author laura
@@ -14,10 +21,15 @@ public class FrmUsuario extends javax.swing.JFrame {
     /**
      * Creates new form FrmUsuario
      */
-    public FrmUsuario() {
+    Usuario usuario;
+    MongoDatabase database;
+    public FrmUsuario(Frame padre, MongoDatabase database, Usuario usuario) {
         initComponents();
         this.setTitle("Faceboot");
         this.setLocationRelativeTo(null);
+        
+        this.usuario = usuario;
+        this.database = database;
     }
 
     /**
@@ -80,6 +92,11 @@ public class FrmUsuario extends javax.swing.JFrame {
         txtNombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtNombreActionPerformed(evt);
+            }
+        });
+        txtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNombreKeyTyped(evt);
             }
         });
         jPanel2.add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 30, 214, -1));
@@ -253,47 +270,53 @@ public class FrmUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        // TODO add your handling code here:
+        FrmPantallaInicio fmPantallaInicio = new FrmPantallaInicio(this, this.database,this.usuario);
+        fmPantallaInicio.show();
+        setVisible(false);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnAgregarPeliculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarPeliculaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnAgregarPeliculaActionPerformed
 
+    private void txtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyTyped
+        if (!String.valueOf(evt.getKeyChar()).matches("^[a-zA-Z ñáéíóú]$")) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtNombreKeyTyped
+    
+    public boolean validarCorreo(){
+        
+        Pattern pattern = Pattern
+                .compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                        + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+
+        Matcher mather = pattern.matcher(txtCorreo.getText());
+        if (mather.find() == true) {            
+            return true;
+        } else {            
+            JOptionPane.showMessageDialog(this, "El correo ingresado es inválido.",
+                    "Alerta", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+    }
+    
+    private boolean validarCampos() {
+        if (!txtNombre.getText().isEmpty()
+                && !txtFechaNacimiento.getText().isEmpty()
+                && !txtFechaNacimiento1.getText().isEmpty()
+                && !txtCorreo.getText().isEmpty()
+                && !txtContrasenia.getText().isEmpty()) {
+            return true;
+        }
+        JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios",
+                "Alerta", JOptionPane.WARNING_MESSAGE);
+        return false;
+    }
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new FrmUsuario().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;

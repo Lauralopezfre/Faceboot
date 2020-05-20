@@ -72,7 +72,7 @@ public class UsuarioRepository extends BaseRepository<Usuario>{
     @Override
     public Usuario actualizar(MongoCollection<Usuario> collection, Usuario entidad){
         //Duda en el actualizar
-        return collection.updateOne(eq("_id", entidad.getId()), entidad);
+        return collection.findOneAndReplace(eq("_id", entidad.getId()), entidad);
     }
     
     /**

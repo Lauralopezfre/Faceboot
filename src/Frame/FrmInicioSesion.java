@@ -125,7 +125,7 @@ public class FrmInicioSesion extends javax.swing.JFrame {
                 btnAceptarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnAceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 170, 167, -1));
+        jPanel1.add(btnAceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 170, 130, -1));
 
         txtContrasenia.setFont(new java.awt.Font("Calibri Light", 0, 18)); // NOI18N
         jPanel1.add(txtContrasenia, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 90, 256, 30));
@@ -138,7 +138,7 @@ public class FrmInicioSesion extends javax.swing.JFrame {
                 btnRegistrarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnRegistrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 280, 140, 30));
+        jPanel1.add(btnRegistrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 280, 130, 30));
 
         lblRegistrar.setForeground(new java.awt.Color(255, 255, 255));
         lblRegistrar.setText("¿Aún no tienes una cuenta?");
@@ -175,9 +175,7 @@ public class FrmInicioSesion extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
-        FrmUsuario fmUsuario = new FrmUsuario();
-        fmUsuario.show();
-        setVisible(false);
+        
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
     
@@ -186,10 +184,9 @@ public class FrmInicioSesion extends javax.swing.JFrame {
             //Se ingresa a la pantalla de inicio
         }else{
             //Mensaje de contraseña o correo incorrectos
-        }
-        
-        
+        }    
     }
+    
     /**
      * @param args the command line arguments
      */

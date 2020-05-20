@@ -16,7 +16,10 @@ public class Comentario {
     private Date fechaHora;
     private Usuario usuario;
 
-    public Comentario(String texto, Date fechaHora, Usuario usuario) {
+    public Comentario() {
+    }
+    
+    public Comentario(String texto, Usuario usuario, Date fechaHora) {
         this.texto = texto;
         this.fechaHora = fechaHora;
         this.usuario = usuario;

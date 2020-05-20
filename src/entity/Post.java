@@ -90,13 +90,14 @@ public class Post {
         this.usuario = usuario;
     }
 
-    public List<Comentario> getComentario() {
-        return comentarios;
-    }
-
-    public void setComentario(List<Comentario> comentario) {
-        this.comentarios = comentario;
-    }
+    //Segunda lista de comentarios?
+//    public List<Comentario> getComentario() {
+//        return comentarios;
+//    }
+//
+//    public void setComentario(List<Comentario> comentario) {
+//        this.comentarios = comentario;
+//    }
 
     @Override
     public String toString() {
