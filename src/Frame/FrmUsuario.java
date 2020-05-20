@@ -16,6 +16,8 @@ public class FrmUsuario extends javax.swing.JFrame {
      */
     public FrmUsuario() {
         initComponents();
+        this.setTitle("Faceboot");
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -30,6 +32,7 @@ public class FrmUsuario extends javax.swing.JFrame {
         dateTimePicker1 = new com.github.lgooddatepicker.components.DateTimePicker();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        lblUsuario = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         txtNombre = new javax.swing.JTextField();
         lblNombre1 = new javax.swing.JLabel();
@@ -51,35 +54,27 @@ public class FrmUsuario extends javax.swing.JFrame {
         btnAgregarPelicula = new javax.swing.JButton();
         btnAceptar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
+        lblIconoPeliculas = new javax.swing.JLabel();
+        lblIconoMusica = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Registrar usuario");
 
         jPanel1.setBackground(new java.awt.Color(51, 153, 255));
         jPanel1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setText("REGISTRAR USUARIO");
-        jLabel1.setFont(new java.awt.Font("Calibri Light", 1, 36)); // NOI18N
+        jLabel1.setText("USUARIO");
+        jLabel1.setFont(new java.awt.Font("Arial Black", 0, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 20, -1, -1));
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(176, 176, 176)
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1))
-        );
+        lblUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/avatar user.png"))); // NOI18N
+        jPanel1.add(lblUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 10, -1, 40));
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         txtNombre.setFont(new java.awt.Font("Calibri Light", 0, 18)); // NOI18N
         txtNombre.addActionListener(new java.awt.event.ActionListener() {
@@ -87,12 +82,16 @@ public class FrmUsuario extends javax.swing.JFrame {
                 txtNombreActionPerformed(evt);
             }
         });
+        jPanel2.add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 30, 214, -1));
 
         lblNombre1.setText("Nombre completo:");
+        lblNombre1.setBackground(new java.awt.Color(51, 51, 51));
         lblNombre1.setFont(new java.awt.Font("Calibri Light", 0, 18)); // NOI18N
+        jPanel2.add(lblNombre1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, -1, -1));
 
         lblCorreo.setText("Correo electronico:");
         lblCorreo.setFont(new java.awt.Font("Calibri Light", 0, 18)); // NOI18N
+        jPanel2.add(lblCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, -1, -1));
 
         txtCorreo.setFont(new java.awt.Font("Calibri Light", 0, 18)); // NOI18N
         txtCorreo.addActionListener(new java.awt.event.ActionListener() {
@@ -100,6 +99,7 @@ public class FrmUsuario extends javax.swing.JFrame {
                 txtCorreoActionPerformed(evt);
             }
         });
+        jPanel2.add(txtCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 80, 214, -1));
 
         txtFechaNacimiento.setFont(new java.awt.Font("Calibri Light", 0, 18)); // NOI18N
         txtFechaNacimiento.addActionListener(new java.awt.event.ActionListener() {
@@ -107,12 +107,15 @@ public class FrmUsuario extends javax.swing.JFrame {
                 txtFechaNacimientoActionPerformed(evt);
             }
         });
+        jPanel2.add(txtFechaNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 130, 214, -1));
 
         lblFechaNacimiento.setText("Fecha de nacimiento:");
         lblFechaNacimiento.setFont(new java.awt.Font("Calibri Light", 0, 18)); // NOI18N
+        jPanel2.add(lblFechaNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, -1, -1));
 
         cbSexo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " " }));
         cbSexo.setFont(new java.awt.Font("Calibri Light", 0, 18)); // NOI18N
+        jPanel2.add(cbSexo, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 30, 151, -1));
 
         txtFechaNacimiento1.setEditable(false);
         txtFechaNacimiento1.setFont(new java.awt.Font("Calibri Light", 0, 18)); // NOI18N
@@ -121,20 +124,27 @@ public class FrmUsuario extends javax.swing.JFrame {
                 txtFechaNacimiento1ActionPerformed(evt);
             }
         });
+        jPanel2.add(txtFechaNacimiento1, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 80, 150, -1));
 
         lblSexo.setText("Sexo:");
         lblSexo.setFont(new java.awt.Font("Calibri Light", 0, 18)); // NOI18N
+        jPanel2.add(lblSexo, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 40, -1, -1));
 
         lblEdad.setText("Edad:");
         lblEdad.setFont(new java.awt.Font("Calibri Light", 0, 18)); // NOI18N
+        jPanel2.add(lblEdad, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 90, -1, -1));
 
         lblGenerosMusicales.setText("Generos Musicales:");
         lblGenerosMusicales.setFont(new java.awt.Font("Calibri Light", 0, 18)); // NOI18N
+        jPanel2.add(lblGenerosMusicales, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 220, -1, -1));
 
         jScrollPane1.setViewportView(jList1);
 
+        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 180, 214, 117));
+
         lblPeliculas.setText("Peliculas:");
         lblPeliculas.setFont(new java.awt.Font("Calibri Light", 0, 18)); // NOI18N
+        jPanel2.add(lblPeliculas, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 320, -1, -1));
 
         txtPelicula.setFont(new java.awt.Font("Calibri Light", 0, 18)); // NOI18N
         txtPelicula.addActionListener(new java.awt.event.ActionListener() {
@@ -142,6 +152,7 @@ public class FrmUsuario extends javax.swing.JFrame {
                 txtPeliculaActionPerformed(evt);
             }
         });
+        jPanel2.add(txtPelicula, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 330, 214, 40));
 
         txtContrasenia.setFont(new java.awt.Font("Calibri Light", 0, 18)); // NOI18N
         txtContrasenia.addActionListener(new java.awt.event.ActionListener() {
@@ -149,153 +160,65 @@ public class FrmUsuario extends javax.swing.JFrame {
                 txtContraseniaActionPerformed(evt);
             }
         });
+        jPanel2.add(txtContrasenia, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 390, 214, -1));
 
         lblContrasenia.setText("Contraseña:");
         lblContrasenia.setFont(new java.awt.Font("Calibri Light", 0, 18)); // NOI18N
+        jPanel2.add(lblContrasenia, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 390, -1, -1));
 
-        btnAgregarPelicula.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/1486485588-add-create-new-math-sign-cross-plus_81186.png"))); // NOI18N
-        btnAgregarPelicula.setText("Agregar otra pelicula");
+        btnAgregarPelicula.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/add.png"))); // NOI18N
+        btnAgregarPelicula.setText("Agregar película");
+        btnAgregarPelicula.setActionCommand("Agregar pelicula");
+        btnAgregarPelicula.setBackground(new java.awt.Color(153, 153, 153));
         btnAgregarPelicula.setFont(new java.awt.Font("Calibri Light", 0, 18)); // NOI18N
         btnAgregarPelicula.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAgregarPeliculaActionPerformed(evt);
             }
         });
+        jPanel2.add(btnAgregarPelicula, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 330, -1, 40));
 
-        btnAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/1486485559-118arrow-down-download-downloads-downloading-save_81191.png"))); // NOI18N
+        btnAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/si.png"))); // NOI18N
         btnAceptar.setText("Aceptar");
+        btnAceptar.setBackground(new java.awt.Color(204, 204, 204));
         btnAceptar.setFont(new java.awt.Font("Calibri Light", 0, 18)); // NOI18N
         btnAceptar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAceptarActionPerformed(evt);
             }
         });
+        jPanel2.add(btnAceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 390, 130, 40));
 
-        btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/cancel_stop_exit_1583.png"))); // NOI18N
+        btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/prohibido.png"))); // NOI18N
         btnCancelar.setText("Cancelar");
+        btnCancelar.setBackground(new java.awt.Color(204, 204, 204));
         btnCancelar.setFont(new java.awt.Font("Calibri Light", 0, 18)); // NOI18N
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelarActionPerformed(evt);
             }
         });
+        jPanel2.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 390, 131, 40));
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(lblContrasenia)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtContrasenia, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(25, 25, 25))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(lblPeliculas)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(23, 23, 23)))
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnAgregarPelicula)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(btnAceptar)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(12, 12, 12)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(lblGenerosMusicales)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblFechaNacimiento)
-                            .addComponent(lblCorreo, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(lblNombre1, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(txtNombre)
-                            .addComponent(txtCorreo, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtFechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(lblSexo)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(cbSexo, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(lblEdad)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtFechaNacimiento1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(89, Short.MAX_VALUE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtFechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addGap(41, 41, 41)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(lblEdad)
-                                .addComponent(txtFechaNacimiento1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblSexo)
-                            .addComponent(cbSexo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(lblNombre1)
-                        .addGap(18, 18, 18)
-                        .addComponent(lblCorreo)
-                        .addGap(18, 18, 18)
-                        .addComponent(lblFechaNacimiento)))
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(26, 26, 26)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(60, 60, 60)
-                        .addComponent(lblGenerosMusicales)))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblPeliculas)
-                    .addComponent(btnAgregarPelicula))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnCancelar)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtContrasenia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnAceptar))
-                        .addComponent(lblContrasenia)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        lblIconoPeliculas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/pelicula.png"))); // NOI18N
+        jPanel2.add(lblIconoPeliculas, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 340, 40, 30));
+
+        lblIconoMusica.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/pista.png"))); // NOI18N
+        jPanel2.add(lblIconoMusica, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 250, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 706, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 444, Short.MAX_VALUE))
         );
 
         pack();
@@ -388,9 +311,12 @@ public class FrmUsuario extends javax.swing.JFrame {
     private javax.swing.JLabel lblEdad;
     private javax.swing.JLabel lblFechaNacimiento;
     private javax.swing.JLabel lblGenerosMusicales;
+    private javax.swing.JLabel lblIconoMusica;
+    private javax.swing.JLabel lblIconoPeliculas;
     private javax.swing.JLabel lblNombre1;
     private javax.swing.JLabel lblPeliculas;
     private javax.swing.JLabel lblSexo;
+    private javax.swing.JLabel lblUsuario;
     private javax.swing.JTextField txtContrasenia;
     private javax.swing.JTextField txtCorreo;
     private javax.swing.JTextField txtFechaNacimiento;

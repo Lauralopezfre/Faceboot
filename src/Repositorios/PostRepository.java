@@ -63,7 +63,7 @@ public class PostRepository extends BaseRepository<Post>{
     @Override
     public ArrayList<Post> buscar(MongoCollection<Post> collection, String criterio){ 
         ArrayList<Post> publicaciones = new ArrayList<>();
-        return collection.find(Filters.regex("Nombre", criterio, "i")).into(publicaciones);
+        return collection.find(Filters.regex("Tags", criterio, "i")).into(publicaciones);
     }
     
     /**
