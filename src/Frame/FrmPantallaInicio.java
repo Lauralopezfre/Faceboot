@@ -3,41 +3,33 @@ package Frame;
 
 import Repositorios.Control;
 import com.mongodb.client.MongoDatabase;
+import com.sun.istack.internal.FragmentContentHandler;
 import entity.Post;
 import entity.Usuario;
 import java.awt.Frame;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Estefanía Aguilar
  */
 public class FrmPantallaInicio extends javax.swing.JFrame {
-    //PantallaInicio
     Control control;
     Usuario usuario;
-    List <Post> posts;
-    List <Publicacion> publicaciones;
+    MongoDatabase basedatos;
     
     public FrmPantallaInicio(Frame padre, MongoDatabase basedatos, Usuario usuario) {
         initComponents();
         this.setTitle("Faceboot");
         this.setLocationRelativeTo(null);
-        
+        control = new Control();
+        this.basedatos = basedatos;
         this.usuario = usuario;
-        jMenu1.setText("Editar perfil");
-        jMenu2.setText("Cerrar sesión");
         
-        posts = control.getPostRepository().buscarTodas(control.getPostRepository().crearCollection(basedatos));
-        
-        for (Post post : posts) {
-            publicaciones.add(new Publicacion(post, this.usuario));
-        }
-
-        for (Publicacion publicacion : publicaciones) {
-            PanelPublicaciones.add(publicacion);
-            PanelPublicaciones.updateUI();
-        }
+        mostrarPublicaciones();
     }
 
     /**
@@ -52,12 +44,16 @@ public class FrmPantallaInicio extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         PanelPublicaciones = new javax.swing.JPanel();
         lblIcono = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtMensaje = new javax.swing.JTextField();
         lblEnviar = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jmenu = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
+        MenuUsuario = new javax.swing.JMenu();
+        menuEitarDatos = new javax.swing.JMenuItem();
+        menuCerrarSesion = new javax.swing.JMenuItem();
+        menuEditarPost = new javax.swing.JMenu();
+        MenuEliminar = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -67,27 +63,63 @@ public class FrmPantallaInicio extends javax.swing.JFrame {
 
         lblIcono.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/avatar.png"))); // NOI18N
 
+        txtMensaje.setFont(new java.awt.Font("Calibri Light", 0, 20)); // NOI18N
+
         lblEnviar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/send.png"))); // NOI18N
+        lblEnviar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lblEnviarActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("¿Qué estás pensando?");
 
         jmenu.setToolTipText("");
 
-        jMenu1.setText("File");
-        jMenu1.addMouseListener(new java.awt.event.MouseAdapter() {
+        MenuUsuario.setText("Usuario");
+        MenuUsuario.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jMenu1MouseClicked(evt);
+                MenuUsuarioMouseClicked(evt);
             }
         });
-        jmenu.add(jMenu1);
 
-        jMenu2.setText("Edit");
-        jMenu2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jMenu2MouseClicked(evt);
+        menuEitarDatos.setText("Editar datos");
+        menuEitarDatos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuEitarDatosActionPerformed(evt);
             }
         });
-        jmenu.add(jMenu2);
+        MenuUsuario.add(menuEitarDatos);
+
+        menuCerrarSesion.setText("Cerrar sesión");
+        menuCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuCerrarSesionActionPerformed(evt);
+            }
+        });
+        MenuUsuario.add(menuCerrarSesion);
+
+        jmenu.add(MenuUsuario);
+
+        menuEditarPost.setText("Publicación");
+        menuEditarPost.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                menuEditarPostMouseClicked(evt);
+            }
+        });
+
+        MenuEliminar.setText("Eliminar");
+        MenuEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MenuEliminarActionPerformed(evt);
+            }
+        });
+        menuEditarPost.add(MenuEliminar);
+
+        jMenuItem1.setText("Buscar");
+        menuEditarPost.add(jMenuItem1);
+
+        jmenu.add(menuEditarPost);
 
         setJMenuBar(jmenu);
 
@@ -95,56 +127,135 @@ public class FrmPantallaInicio extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 471, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(22, 22, 22)
                 .addComponent(lblIcono)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lblEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(38, 38, 38))
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(413, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(txtMensaje)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(20, 20, 20))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(24, 24, 24)
+                .addGap(22, 22, 22)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(lblIcono, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lblEnviar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtMensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMenu1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu1MouseClicked
+    private void MenuUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MenuUsuarioMouseClicked
         
-    }//GEN-LAST:event_jMenu1MouseClicked
+    }//GEN-LAST:event_MenuUsuarioMouseClicked
 
-    private void jMenu2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu2MouseClicked
-        System.exit(0);
-    }//GEN-LAST:event_jMenu2MouseClicked
+    private void menuEditarPostMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuEditarPostMouseClicked
 
+    }//GEN-LAST:event_menuEditarPostMouseClicked
+
+    private void menuEitarDatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuEitarDatosActionPerformed
+        FrmUsuario frmUsuario = new FrmUsuario(this, basedatos, usuario);
+        frmUsuario.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_menuEitarDatosActionPerformed
+
+    private void lblEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lblEnviarActionPerformed
+       guardar();
+       mostrarPublicaciones();
+    }//GEN-LAST:event_lblEnviarActionPerformed
+
+    private void MenuEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuEliminarActionPerformed
+        //Eliminar post
+        EliminacionPost ep = new EliminacionPost(usuario, basedatos);
+        ep.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_MenuEliminarActionPerformed
+
+    private void menuCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuCerrarSesionActionPerformed
+        FrmInicioSesion frmInicioSesion = new FrmInicioSesion();
+        frmInicioSesion.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_menuCerrarSesionActionPerformed
+
+    public void mostrarPublicaciones(){
+        //Obtengo todas las publicaciones de la base de datos.
+        ArrayList<Post> publiciones = 
+                control.getPostRepository().buscarTodas(control.getPostRepository().crearCollection(basedatos));
+        //Ordenar las publicaciones por orden
+        ArrayList<Post> publicionesOrdenadas = new ArrayList<>();
+        
+        //Creo una lista donde iran los formatos
+        ArrayList<Publicacion> formatoPost = new ArrayList<>();
+        //Creo los formatos con la lista de publicaciones de la base de datos
+        for (Post publicion : publiciones) {
+            formatoPost.add(new Publicacion(basedatos, publicion, usuario));
+        }
+        //Agrego los formatos al panel
+        for (Publicacion publicacion : formatoPost) {
+            PanelPublicaciones.add(publicacion);
+            PanelPublicaciones.updateUI();
+        }
+        
+    }
+    
+    public void guardar(){
+        
+        //Separar mensaje de tags
+        String mensajeCompleto = txtMensaje.getText();
+        String mensaje = "";
+        String tag = " ";
+        ArrayList<String> tags = new ArrayList<>();
+            for (int i = 0; i < mensajeCompleto.length(); i++) {
+            if(mensajeCompleto.charAt(i)=='#'){
+                i++; 
+                while(i < mensajeCompleto.length()){
+                    if(mensajeCompleto.charAt(i)!=' '){
+                       tag = tag + mensajeCompleto.charAt(i);
+                       i++; 
+                    }else{
+                        break;
+                    }
+                }
+                    tags.add(tag);
+                    tag = "";
+            }else{
+                mensaje = mensaje + mensajeCompleto.charAt(i);
+            }
+        }
+        
+        control.getPostRepository().crearDocument(control.getPostRepository().crearCollection(basedatos),
+                new Post(new Date(), mensaje, tags, usuario));
+        JOptionPane.showMessageDialog(this, "Se ha agregado una nueva publicación",
+                "Alerta", JOptionPane.INFORMATION_MESSAGE);
+    }
  
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem MenuEliminar;
+    private javax.swing.JMenu MenuUsuario;
     private javax.swing.JPanel PanelPublicaciones;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JMenuBar jmenu;
     private javax.swing.JButton lblEnviar;
     private javax.swing.JLabel lblIcono;
+    private javax.swing.JMenuItem menuCerrarSesion;
+    private javax.swing.JMenu menuEditarPost;
+    private javax.swing.JMenuItem menuEitarDatos;
+    private javax.swing.JTextField txtMensaje;
     // End of variables declaration//GEN-END:variables
 }

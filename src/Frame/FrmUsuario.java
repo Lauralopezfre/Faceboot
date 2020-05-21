@@ -5,11 +5,20 @@
  */
 package Frame;
 
+import Enum.GenerosMusicales;
+import Enum.Sexo;
+import Repositorios.Control;
 import com.mongodb.client.MongoDatabase;
 import entity.Usuario;
 import java.awt.Frame;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
 /**
@@ -17,19 +26,39 @@ import javax.swing.JOptionPane;
  * @author laura
  */
 public class FrmUsuario extends javax.swing.JFrame {
-
-    /**
-     * Creates new form FrmUsuario
-     */
+    Control control;
     Usuario usuario;
     MongoDatabase database;
+    
+    List<String> peliculas;
+    
     public FrmUsuario(Frame padre, MongoDatabase database, Usuario usuario) {
         initComponents();
         this.setTitle("Faceboot");
         this.setLocationRelativeTo(null);
-        
+        control = new Control();
         this.usuario = usuario;
         this.database = database;
+        //Si el frame viene para registrar o editar.
+        if(usuario != null){
+            mostrarInformacion();
+            txtNombre.setEditable(false);
+            txtCorreo.setEditable(false);
+            txtEdad.setEditable(false);
+            txtFechaNacimiento.setEditable(false);
+            cbSexo.setEditable(false);
+            txtContrasenia.setEditable(false);
+            txtPelicula.setEditable(false);
+            jlGenerosMusicales.setEnabled(false);
+            jlPeliculas.setEnabled(false);
+            btnAceptar.setText("Editar");
+            peliculas = usuario.getPeliculas();
+            
+        }else{
+            btnAceptar.setText("Guardar");
+            llenarCampos();
+            peliculas = new ArrayList<>();
+        }
     }
 
     /**
@@ -53,12 +82,12 @@ public class FrmUsuario extends javax.swing.JFrame {
         txtFechaNacimiento = new javax.swing.JTextField();
         lblFechaNacimiento = new javax.swing.JLabel();
         cbSexo = new javax.swing.JComboBox<>();
-        txtFechaNacimiento1 = new javax.swing.JTextField();
+        txtEdad = new javax.swing.JTextField();
         lblSexo = new javax.swing.JLabel();
         lblEdad = new javax.swing.JLabel();
         lblGenerosMusicales = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        jlPeliculas = new javax.swing.JList<>();
         lblPeliculas = new javax.swing.JLabel();
         txtPelicula = new javax.swing.JTextField();
         txtContrasenia = new javax.swing.JTextField();
@@ -68,6 +97,8 @@ public class FrmUsuario extends javax.swing.JFrame {
         btnCancelar = new javax.swing.JButton();
         lblIconoPeliculas = new javax.swing.JLabel();
         lblIconoMusica = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jlGenerosMusicales = new javax.swing.JList<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Registrar usuario");
@@ -124,6 +155,11 @@ public class FrmUsuario extends javax.swing.JFrame {
                 txtFechaNacimientoActionPerformed(evt);
             }
         });
+        txtFechaNacimiento.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtFechaNacimientoKeyReleased(evt);
+            }
+        });
         jPanel2.add(txtFechaNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 130, 214, -1));
 
         lblFechaNacimiento.setText("Fecha de nacimiento:");
@@ -134,14 +170,14 @@ public class FrmUsuario extends javax.swing.JFrame {
         cbSexo.setFont(new java.awt.Font("Calibri Light", 0, 18)); // NOI18N
         jPanel2.add(cbSexo, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 30, 151, -1));
 
-        txtFechaNacimiento1.setEditable(false);
-        txtFechaNacimiento1.setFont(new java.awt.Font("Calibri Light", 0, 18)); // NOI18N
-        txtFechaNacimiento1.addActionListener(new java.awt.event.ActionListener() {
+        txtEdad.setEditable(false);
+        txtEdad.setFont(new java.awt.Font("Calibri Light", 0, 18)); // NOI18N
+        txtEdad.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtFechaNacimiento1ActionPerformed(evt);
+                txtEdadActionPerformed(evt);
             }
         });
-        jPanel2.add(txtFechaNacimiento1, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 80, 150, -1));
+        jPanel2.add(txtEdad, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 80, 150, -1));
 
         lblSexo.setText("Sexo:");
         lblSexo.setFont(new java.awt.Font("Calibri Light", 0, 18)); // NOI18N
@@ -155,9 +191,14 @@ public class FrmUsuario extends javax.swing.JFrame {
         lblGenerosMusicales.setFont(new java.awt.Font("Calibri Light", 0, 18)); // NOI18N
         jPanel2.add(lblGenerosMusicales, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 220, -1, -1));
 
-        jScrollPane1.setViewportView(jList1);
+        jlPeliculas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jlPeliculasMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jlPeliculas);
 
-        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 180, 214, 117));
+        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 390, 210, 117));
 
         lblPeliculas.setText("Peliculas:");
         lblPeliculas.setFont(new java.awt.Font("Calibri Light", 0, 18)); // NOI18N
@@ -177,45 +218,48 @@ public class FrmUsuario extends javax.swing.JFrame {
                 txtContraseniaActionPerformed(evt);
             }
         });
-        jPanel2.add(txtContrasenia, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 390, 214, -1));
+        jPanel2.add(txtContrasenia, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 530, 214, -1));
 
         lblContrasenia.setText("Contraseña:");
         lblContrasenia.setFont(new java.awt.Font("Calibri Light", 0, 18)); // NOI18N
-        jPanel2.add(lblContrasenia, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 390, -1, -1));
+        jPanel2.add(lblContrasenia, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 530, -1, -1));
 
         btnAgregarPelicula.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/add.png"))); // NOI18N
         btnAgregarPelicula.setText("Agregar película");
         btnAgregarPelicula.setActionCommand("Agregar pelicula");
         btnAgregarPelicula.setBackground(new java.awt.Color(153, 153, 153));
+        btnAgregarPelicula.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnAgregarPelicula.setFont(new java.awt.Font("Calibri Light", 0, 18)); // NOI18N
         btnAgregarPelicula.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAgregarPeliculaActionPerformed(evt);
             }
         });
-        jPanel2.add(btnAgregarPelicula, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 330, -1, 40));
+        jPanel2.add(btnAgregarPelicula, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 330, 190, 40));
 
         btnAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/si.png"))); // NOI18N
         btnAceptar.setText("Aceptar");
         btnAceptar.setBackground(new java.awt.Color(204, 204, 204));
+        btnAceptar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnAceptar.setFont(new java.awt.Font("Calibri Light", 0, 18)); // NOI18N
         btnAceptar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAceptarActionPerformed(evt);
             }
         });
-        jPanel2.add(btnAceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 390, 130, 40));
+        jPanel2.add(btnAceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 460, 190, 40));
 
         btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/prohibido.png"))); // NOI18N
         btnCancelar.setText("Cancelar");
         btnCancelar.setBackground(new java.awt.Color(204, 204, 204));
+        btnCancelar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnCancelar.setFont(new java.awt.Font("Calibri Light", 0, 18)); // NOI18N
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelarActionPerformed(evt);
             }
         });
-        jPanel2.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 390, 131, 40));
+        jPanel2.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(421, 520, 190, 40));
 
         lblIconoPeliculas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/pelicula.png"))); // NOI18N
         jPanel2.add(lblIconoPeliculas, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 340, 40, 30));
@@ -223,19 +267,23 @@ public class FrmUsuario extends javax.swing.JFrame {
         lblIconoMusica.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/pista.png"))); // NOI18N
         jPanel2.add(lblIconoMusica, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 250, -1, -1));
 
+        jScrollPane2.setViewportView(jlGenerosMusicales);
+
+        jPanel2.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 180, 214, 117));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 706, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 679, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 444, Short.MAX_VALUE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 590, Short.MAX_VALUE))
         );
 
         pack();
@@ -253,20 +301,34 @@ public class FrmUsuario extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtFechaNacimientoActionPerformed
 
-    private void txtFechaNacimiento1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFechaNacimiento1ActionPerformed
+    private void txtEdadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEdadActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtFechaNacimiento1ActionPerformed
-
-    private void txtPeliculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPeliculaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtPeliculaActionPerformed
+    }//GEN-LAST:event_txtEdadActionPerformed
 
     private void txtContraseniaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtContraseniaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtContraseniaActionPerformed
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-        // TODO add your handling code here:
+        if(btnAceptar.getText().equalsIgnoreCase("Editar")){
+            txtNombre.setEditable(true);
+            txtCorreo.setEditable(true);
+            txtEdad.setEditable(true);
+            txtFechaNacimiento.setEditable(true);
+            cbSexo.setEditable(true);
+            txtContrasenia.setEditable(true);
+            jlGenerosMusicales.setEnabled(true);
+            jlPeliculas.setEnabled(true);
+            txtPelicula.setEditable(true);
+            llenarCampos();
+            btnAceptar.setText("Actualizar");
+        }
+        else if(btnAceptar.getText().equalsIgnoreCase("Actualizar")){
+            actualizar();
+        }else{
+           guardar();     
+        }
+        
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -276,7 +338,13 @@ public class FrmUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnAgregarPeliculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarPeliculaActionPerformed
-        // TODO add your handling code here:
+        peliculas.add(txtPelicula.getText());
+        txtPelicula.setText("");
+        DefaultListModel listModel = new DefaultListModel();
+        for (String pelicula : peliculas) {
+            listModel.addElement(pelicula);
+        }
+        jlPeliculas.setModel(listModel);
     }//GEN-LAST:event_btnAgregarPeliculaActionPerformed
 
     private void txtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyTyped
@@ -284,7 +352,49 @@ public class FrmUsuario extends javax.swing.JFrame {
             evt.consume();
         }
     }//GEN-LAST:event_txtNombreKeyTyped
-    
+
+    private void txtFechaNacimientoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFechaNacimientoKeyReleased
+        
+    }//GEN-LAST:event_txtFechaNacimientoKeyReleased
+
+    private void txtPeliculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPeliculaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPeliculaActionPerformed
+
+    private void jlPeliculasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlPeliculasMouseClicked
+        //Obtener generos musicales
+
+        DefaultListModel modelo = (DefaultListModel) jlPeliculas.getModel();
+        int index = jlPeliculas.getSelectedIndex();
+        modelo.remove(index);
+        
+        peliculas.remove(index);
+        
+    }//GEN-LAST:event_jlPeliculasMouseClicked
+    public void mostrarInformacion(){
+        txtNombre.setText(usuario.getNombre());
+        txtCorreo.setText(usuario.getCorreo());
+        txtEdad.setText(String.valueOf(usuario.getEdad()));
+        
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+        String fechaTexto = formatter.format(usuario.getFechaNacimiento());
+        
+        txtFechaNacimiento.setText(fechaTexto);
+        cbSexo.setSelectedItem(usuario.getSexo());
+        txtContrasenia.setText(usuario.getContrasenia());
+        
+        DefaultListModel listModel = new DefaultListModel();
+        for (String pelicula : usuario.getPeliculas()) {
+            listModel.addElement(pelicula);
+        }
+        jlPeliculas.setModel(listModel);
+        
+         DefaultListModel gm = new DefaultListModel();
+        for (GenerosMusicales generos : usuario.getGenerosMusicales()) {
+            gm.addElement(generos);
+        }
+        jlGenerosMusicales.setModel(gm);
+    }
     public boolean validarCorreo(){
         
         Pattern pattern = Pattern
@@ -300,11 +410,50 @@ public class FrmUsuario extends javax.swing.JFrame {
             return false;
         }
     }
-    
+    private void actualizar(){
+        //Obtener fecha
+        String fecha = txtFechaNacimiento.getText();
+        
+        SimpleDateFormat formatoDelTexto = new SimpleDateFormat("yyyy/MM/dd");
+        Date fechaNacimiento = null;
+        try {
+            fechaNacimiento = formatoDelTexto.parse(txtFechaNacimiento.getText());
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        
+        Date fechaHoy = new Date();
+        
+        //Obtener generos musicales
+        ArrayList<GenerosMusicales> gm = new ArrayList<>();
+        for (int i = 0; i < jlGenerosMusicales.getSelectedValues().length; i++) {
+            gm.add((GenerosMusicales)jlGenerosMusicales.getSelectedValues()[i]);
+        }
+        
+        //Registrar
+        if(validarCampos()){
+            usuario.setContrasenia(txtContrasenia.getText());
+            usuario.setCorreo(txtCorreo.getText());
+            usuario.setEdad(calcularEdad(fechaNacimiento, fechaHoy));
+            usuario.setFechaNacimiento(fechaNacimiento);
+            usuario.setGenerosMusicales(gm);
+            usuario.setNombre(txtNombre.getText());
+            usuario.setPeliculas(peliculas);
+            usuario.setSexo((Sexo)cbSexo.getSelectedItem());
+            
+            //Se guarda en la base de datos
+            control.getUsuarioRepository().actualizar(control.getUsuarioRepository().crearCollection(database), usuario);
+            txtEdad.setText(String.valueOf(calcularEdad(fechaNacimiento, fechaHoy)));
+            JOptionPane.showMessageDialog(this, "Se ha actualizado con exito el usuario.",
+                "Alerta", JOptionPane.INFORMATION_MESSAGE);
+            FrmPantallaInicio frmPantallaInicio = new FrmPantallaInicio(this, database, usuario);
+            frmPantallaInicio.setVisible(true);
+            this.setVisible(false);
+        }
+    }
     private boolean validarCampos() {
         if (!txtNombre.getText().isEmpty()
                 && !txtFechaNacimiento.getText().isEmpty()
-                && !txtFechaNacimiento1.getText().isEmpty()
                 && !txtCorreo.getText().isEmpty()
                 && !txtContrasenia.getText().isEmpty()) {
             return true;
@@ -312,6 +461,64 @@ public class FrmUsuario extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios",
                 "Alerta", JOptionPane.WARNING_MESSAGE);
         return false;
+    }
+    
+    private void llenarCampos(){
+        
+        //Llenar lista de generos
+        DefaultListModel listModel = new DefaultListModel();
+        listModel.addElement(GenerosMusicales.Bachata);
+        listModel.addElement(GenerosMusicales.Banda);
+        listModel.addElement(GenerosMusicales.Norteño);
+        listModel.addElement(GenerosMusicales.Pop);
+        listModel.addElement(GenerosMusicales.Reggaeton);
+        jlGenerosMusicales.setModel(listModel);
+        
+        //Llenar sexo
+        DefaultComboBoxModel sexo = new DefaultComboBoxModel();
+        sexo.addElement(Sexo.femenino);
+        sexo.addElement(Sexo.masculino);
+        cbSexo.setModel(sexo);
+        
+    }
+    private void guardar(){
+        //Obtener fecha
+        String fecha = txtFechaNacimiento.getText();
+        
+        SimpleDateFormat formatoDelTexto = new SimpleDateFormat("yyyy/MM/dd");
+        Date fechaNacimiento = null;
+        try {
+            fechaNacimiento = formatoDelTexto.parse(txtFechaNacimiento.getText());
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        
+        Date fechaHoy = new Date();
+        
+        //Obtener generos musicales
+        ArrayList<GenerosMusicales> gm = new ArrayList<>();
+        for (int i = 0; i < jlGenerosMusicales.getSelectedValues().length; i++) {
+            gm.add((GenerosMusicales)jlGenerosMusicales.getSelectedValues()[i]);
+        }
+        
+        //Registrar
+        if(validarCampos()){
+            Usuario usuarioNuevo = new Usuario(txtNombre.getText(), txtCorreo.getText(), txtContrasenia.getText(), calcularEdad(fechaNacimiento, fechaHoy), 
+                    (Sexo)cbSexo.getSelectedItem(), gm , fechaNacimiento, peliculas);
+            //Se guarda en la base de datos
+            control.getUsuarioRepository().crearDocument(control.getUsuarioRepository().crearCollection(database), usuarioNuevo);
+            txtEdad.setText(String.valueOf(calcularEdad(fechaNacimiento, fechaHoy)));
+            JOptionPane.showMessageDialog(this, "Se ha registrado con exito el usuario.",
+                "Alerta", JOptionPane.INFORMATION_MESSAGE);
+            FrmInicioSesion frmInicioSesión = new FrmInicioSesion();
+            frmInicioSesión.setVisible(true);
+            this.setVisible(false);
+        }
+    }
+    public int calcularEdad(Date fechaNacimiento, Date fechaActual){
+        long diferencia = fechaActual.getTime() - fechaNacimiento.getTime();
+        double dias = Math.floor(diferencia / (86400000));
+        return (int)dias/365;
     }
     /**
      * @param args the command line arguments
@@ -325,10 +532,12 @@ public class FrmUsuario extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cbSexo;
     private com.github.lgooddatepicker.components.DateTimePicker dateTimePicker1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JList<String> jlGenerosMusicales;
+    private javax.swing.JList<String> jlPeliculas;
     private javax.swing.JLabel lblContrasenia;
     private javax.swing.JLabel lblCorreo;
     private javax.swing.JLabel lblEdad;
@@ -342,8 +551,8 @@ public class FrmUsuario extends javax.swing.JFrame {
     private javax.swing.JLabel lblUsuario;
     private javax.swing.JTextField txtContrasenia;
     private javax.swing.JTextField txtCorreo;
+    private javax.swing.JTextField txtEdad;
     private javax.swing.JTextField txtFechaNacimiento;
-    private javax.swing.JTextField txtFechaNacimiento1;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtPelicula;
     // End of variables declaration//GEN-END:variables

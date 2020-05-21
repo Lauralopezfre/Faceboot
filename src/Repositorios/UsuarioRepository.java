@@ -113,7 +113,7 @@ public class UsuarioRepository extends BaseRepository<Usuario>{
     public Usuario ingresar(MongoCollection<Usuario> collection, String correo, String contrasenia){
         //Obtiene el usuario de la base de datos con el correo dado
         ArrayList<Usuario> usuario = new ArrayList<>();
-        collection.find(Filters.regex("Correo", correo, "i")).into(usuario);
+        collection.find(Filters.regex("correo", correo, "i")).into(usuario);
         
         //Valida que la contraseña pertenezca ese usuario, si es asi regresa el usuario, sino regresa null
         for (Usuario usuario1 : usuario) {

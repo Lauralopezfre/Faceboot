@@ -5,6 +5,7 @@
  */
 package entity;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.bson.types.ObjectId;
@@ -22,6 +23,23 @@ public class Post {
     private Usuario usuario;
     private List<Comentario> comentarios;
 
+    public Post(Date fechaHora, String mensaje, List<String> tags, Usuario usuario) {
+        this.fechaHora = fechaHora;
+        this.mensaje = mensaje;
+        this.tags = tags;
+        this.usuario = usuario;
+        comentarios = new ArrayList<>();
+    }
+
+    public Post(Date fechaHora, String mensaje, List<String> tags, Usuario usuario, List<Comentario> comentarios) {
+        this.fechaHora = fechaHora;
+        this.mensaje = mensaje;
+        this.tags = tags;
+        this.usuario = usuario;
+        this.comentarios = comentarios;
+        
+    }
+
     public Post(ObjectId id, Date fechaHora, String mensaje, List<String> tags, Usuario usuario, List<Comentario> comentarios) {
         this.id = id;
         this.fechaHora = fechaHora;
@@ -31,15 +49,11 @@ public class Post {
         this.comentarios = comentarios;
     }
 
-    public Post(Date fechaHora, String mensaje, List<String> tags, Usuario usuario, List<Comentario> comentarios) {
-        this.fechaHora = fechaHora;
-        this.mensaje = mensaje;
-        this.tags = tags;
-        this.usuario = usuario;
-        this.comentarios = comentarios;
-    }
+    
 
     public Post() {
+        comentarios = new ArrayList<>();
+        
     }
 
     public ObjectId getId() {
@@ -90,18 +104,13 @@ public class Post {
         this.usuario = usuario;
     }
 
-    //Segunda lista de comentarios?
-//    public List<Comentario> getComentario() {
-//        return comentarios;
-//    }
-//
-//    public void setComentario(List<Comentario> comentario) {
-//        this.comentarios = comentario;
-//    }
-
     @Override
     public String toString() {
-        return "Post{" + "id=" + id + ", fechaHora=" + fechaHora + ", mensaje=" + mensaje + ", tags=" + tags + ", usuario=" + usuario + ", comentarios=" + comentarios + '}';
+        String mensaje = getMensaje();
+        for (String tag : getTags()) {
+            mensaje = mensaje + tag;
+        }
+        return mensaje;
     }
     
     

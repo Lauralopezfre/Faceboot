@@ -1,6 +1,7 @@
 
 package Frame;
 
+import Repositorios.Control;
 import Repositorios.PostRepository;
 import Repositorios.UsuarioRepository;
 import com.mongodb.client.MongoDatabase;
@@ -18,18 +19,19 @@ import java.util.List;
  */
 public class Publicacion extends javax.swing.JPanel {
     public static final String newline = "\n";
-    Post post;
-    PostRepository postRepository;    
+    Post post; 
     Usuario usuario;
-    UsuarioRepository usuarioRepository;
-    List<Comentario> comentarios;    
+    Control control;
+    MongoDatabase basedatos;
     
-    public Publicacion(Post post, Usuario usuario) {
+    public Publicacion(MongoDatabase basedatos, Post post, Usuario usuario) {
         initComponents();         
-        this.post = post;              
-        this.usuario = usuario;        
+        this.post = post;        
+        this.usuario = usuario;
+        control = new Control();
+        this.basedatos = basedatos;
         
-        comentarios = this.post.getComentarios();
+        mostrarDatos();
     }
 
     /**
@@ -54,27 +56,33 @@ public class Publicacion extends javax.swing.JPanel {
         setBackground(new java.awt.Color(255, 255, 255));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        txtAComentarios.setEditable(false);
         txtAComentarios.setColumns(20);
+        txtAComentarios.setFont(new java.awt.Font("Calibri Light", 0, 15)); // NOI18N
         txtAComentarios.setRows(5);
         jScrollPane1.setViewportView(txtAComentarios);
 
-        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 180, 320, 80));
+        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 170, 530, 120));
 
+        lblPublicacion.setEditable(false);
+        lblPublicacion.setFont(new java.awt.Font("Calibri Light", 0, 18)); // NOI18N
         lblPublicacion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 lblPublicacionActionPerformed(evt);
             }
         });
-        add(lblPublicacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 80, 320, 90));
+        add(lblPublicacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 80, 530, 70));
 
+        lblNombre.setFont(new java.awt.Font("Calibri Light", 1, 18)); // NOI18N
         lblNombre.setForeground(new java.awt.Color(51, 51, 51));
-        add(lblNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 40, 103, 22));
-        add(lblFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 40, 60, 20));
+        add(lblNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 40, 180, 22));
+
+        lblFecha.setFont(new java.awt.Font("Calibri Light", 0, 18)); // NOI18N
+        add(lblFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 40, 280, 20));
 
         lblIcono.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/avatar.png"))); // NOI18N
         add(lblIcono, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 30, -1, 40));
 
+        txtComentario.setFont(new java.awt.Font("Calibri Light", 0, 18)); // NOI18N
         txtComentario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtComentarioActionPerformed(evt);
@@ -85,18 +93,19 @@ public class Publicacion extends javax.swing.JPanel {
                 txtComentarioKeyPressed(evt);
             }
         });
-        add(txtComentario, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 270, 250, 30));
+        add(txtComentario, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 310, 420, 30));
 
         btnEnviar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/send.png"))); // NOI18N
+        btnEnviar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnEnviar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEnviarActionPerformed(evt);
             }
         });
-        add(btnEnviar, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 270, 60, 30));
+        add(btnEnviar, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 300, 90, 50));
 
         lblFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/blancosolido.jpg"))); // NOI18N
-        add(lblFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 410, 340));
+        add(lblFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 600, 320));
     }// </editor-fold>//GEN-END:initComponents
 
     private void lblPublicacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lblPublicacionActionPerformed
@@ -119,10 +128,9 @@ public class Publicacion extends javax.swing.JPanel {
             txtComentario.selectAll();
             txtAComentarios.setCaretPosition(txtAComentarios.getDocument().getLength());
             
-            this.comentarios.add(comentario);            
-            this.post.setComentarios(comentarios);
-            //postRepository.actualizar(database, this.post);
-            //usuarioRepository.actualizar(database, this.usuario);
+            post.getComentarios().add(comentario);
+            control.getPostRepository().actualizar(control.getPostRepository().crearCollection(basedatos), 
+                    post);
             
             txtComentario.setText("");
         }
@@ -140,10 +148,9 @@ public class Publicacion extends javax.swing.JPanel {
             txtComentario.selectAll();
             txtAComentarios.setCaretPosition(txtAComentarios.getDocument().getLength());
             
-            this.comentarios.add(comentario);
-            this.post.setComentarios(comentarios);
-            //postRepository.actualizar(database, this.post);
-            //usuarioRepository.actualizar(database, this.usuario);
+            post.getComentarios().add(comentario);
+            control.getPostRepository().actualizar(control.getPostRepository().crearCollection(basedatos), 
+                    post);
             
             txtComentario.setText("");
                 }
@@ -164,21 +171,33 @@ public class Publicacion extends javax.swing.JPanel {
     public void mostrarDatos() {
         lblNombre.setEnabled(false);
         lblFecha.setEnabled(false);
+        
+        
         lblNombre.setText(post.getUsuario().getNombre());
-        lblFecha.setText(post.getFechaHora().toString());
-        txtAComentarios.setEnabled(false);                        
-       
-        if (!post.getComentarios().isEmpty()) {
+        SimpleDateFormat formater = new SimpleDateFormat("hh: mm: ss a dd-MMMM-yyyy");
+
+        String fechaTexto = formater.format(post.getFechaHora());
+        lblFecha.setText(fechaTexto);
+        txtAComentarios.setEnabled(false);
+        lblPublicacion.setText(post.getMensaje());
+        String tags = "";
+        for (String tag : post.getTags()) {   
+            tags = tag + tags;
+        }
+        lblPublicacion.setText(lblPublicacion.getText() + tags);
+        
+        if (post.getComentarios() != null) {
             for (Comentario comentario : post.getComentarios()) {                                
-                SimpleDateFormat formater = new SimpleDateFormat("hh: mm: ss a dd-MMMM-yyyy");                
+                SimpleDateFormat formater2 = new SimpleDateFormat("hh: mm: ss a dd-MMMM-yyyy");      
                 txtAComentarios.append(comentario.getUsuario().getNombre() + ": " + comentario.getTexto() + newline 
-                        + "     " + formater.format(comentario.getFechaHora())
+                        + "     " + formater2.format(comentario.getFechaHora())
                         +newline);
                 txtAComentarios.selectAll();
                 txtAComentarios.setCaretPosition(txtAComentarios.getDocument().getLength());
             }
         }
     }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEnviar;
