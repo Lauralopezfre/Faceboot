@@ -91,9 +91,9 @@ public class BusquedaPosts extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(19, 19, 19)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(txtBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnBuscar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(btnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 375, Short.MAX_VALUE))
@@ -162,7 +162,7 @@ public class BusquedaPosts extends javax.swing.JFrame {
         for (Post publicacion : publicaciones) {
             formatoPost.add(new Publicacion(mongo, publicacion, usuario));
         }
-        reorganizarPublicaciones(publicaciones);
+        
         if (!txtBusqueda.getText().isEmpty()) {
             //Agrego los formatos al panel
             for (Publicacion publicacion : formatoPost) {
@@ -183,9 +183,9 @@ public class BusquedaPosts extends javax.swing.JFrame {
 
     public static void reorganizarPublicaciones(ArrayList<Post> publicaciones) {
         for (int i = 0; i < publicaciones.size(); i++) {
-            Post aux = publicaciones.get(publicaciones.size() - 1);  //guardar el último elemento en una variable   
-            publicaciones.add(0, aux);                    //insertar al principio el último valor
-            publicaciones.remove(publicaciones.size() - 1);         //eliminar el último elemento
+            Post aux = publicaciones.get(publicaciones.size() - 1);  
+            publicaciones.add(0, aux);                   
+            publicaciones.remove(publicaciones.size() - 1);         
         }
 
     }

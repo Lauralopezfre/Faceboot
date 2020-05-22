@@ -23,6 +23,7 @@ public class EliminacionPost extends javax.swing.JFrame {
     MongoDatabase mongo;
     Control control;
     Usuario usuario;
+
     public EliminacionPost(Usuario usuario, MongoDatabase mongo) {
         initComponents();
         this.setTitle("Faceboot");
@@ -32,17 +33,18 @@ public class EliminacionPost extends javax.swing.JFrame {
         this.usuario = usuario;
         mostrarPublicaciones();
     }
-    
-    public void mostrarPublicaciones(){
+
+    public void mostrarPublicaciones() {
         DefaultListModel listModel = new DefaultListModel();
         for (Post post : control.getPostRepository().buscarTodas(control.getPostRepository().crearCollection(mongo))) {
-            if(post.getUsuario().getId().toString()
-                    .equals(usuario.getId().toString())){
+            if (post.getUsuario().getId().toString()
+                    .equals(usuario.getId().toString())) {
                 listModel.addElement(post);
             }
         }
         jlPublicaciones.setModel(listModel);
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -173,20 +175,24 @@ public class EliminacionPost extends javax.swing.JFrame {
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         ArrayList<Post> publicaciones = new ArrayList<>();
         for (int i = 0; i < jlPublicaciones.getSelectedValues().length; i++) {
-            publicaciones.add((Post)jlPublicaciones.getSelectedValues()[i]);
+            publicaciones.add((Post) jlPublicaciones.getSelectedValues()[i]);
         }
-        
-        for (Post publicacione : publicaciones) {
-            control.getPostRepository().eliminar(control.getPostRepository().crearCollection(mongo), publicacione.getId());
+
+        if (publicaciones.size() == 1) {
+            for (Post publicacione : publicaciones) {
+                control.getPostRepository().eliminar(control.getPostRepository().crearCollection(mongo), publicacione.getId());
+            }
+
+            JOptionPane.showMessageDialog(this, "Operacion exitosa",
+                    "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+            mostrarPublicaciones();
+            FrmPantallaInicio frmpi = new FrmPantallaInicio(this, mongo, usuario);
+            frmpi.setVisible(true);
+            this.setVisible(false);
+        } else {
+            JOptionPane.showMessageDialog(this, "Selecciona una publicación",
+                    "Mensaje", JOptionPane.INFORMATION_MESSAGE);
         }
-        
-        JOptionPane.showMessageDialog(this, "Operacion exitosa",
-                "Mensaje", JOptionPane.INFORMATION_MESSAGE);
-        mostrarPublicaciones();
-        FrmPantallaInicio frmpi = new FrmPantallaInicio(this, mongo, usuario);
-        frmpi.setVisible(true);
-        this.setVisible(false);
-        
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnCancekarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancekarActionPerformed
@@ -196,8 +202,18 @@ public class EliminacionPost extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancekarActionPerformed
 
     private void btnComentariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnComentariosActionPerformed
-        EliminacionComentario frmec = new EliminacionComentario(usuario, mongo);
-        frmec.setVisible(true);        
+        ArrayList<Post> publicaciones = new ArrayList<>();
+        for (int i = 0; i < jlPublicaciones.getSelectedValues().length; i++) {
+            publicaciones.add((Post) jlPublicaciones.getSelectedValues()[i]);
+        }
+
+        if (publicaciones.size() == 1) {
+            EliminacionComentario frmec = new EliminacionComentario(usuario, publicaciones.get(0), mongo);
+            frmec.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "Selecciona una publicación",
+                    "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_btnComentariosActionPerformed
 
 

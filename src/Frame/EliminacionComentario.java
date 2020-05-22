@@ -11,6 +11,7 @@ import entity.Comentario;
 import entity.Post;
 import entity.Usuario;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
@@ -26,29 +27,30 @@ public class EliminacionComentario extends javax.swing.JFrame {
     MongoDatabase mongo;
     Control control;
     Usuario usuario;
-    public EliminacionComentario(Usuario usuario, MongoDatabase mongo) {
+    Post publicacion;
+
+    public EliminacionComentario(Usuario usuario, Post publicacion, MongoDatabase mongo) {
         initComponents();
         this.setTitle("Faceboot");
         this.setLocationRelativeTo(null);
         control = new Control();
         this.mongo = mongo;
         this.usuario = usuario;
+        this.publicacion = publicacion;
         mostrarComentarios();
-        
     }
 
-    public void mostrarComentarios(){
-        DefaultListModel listModel = new DefaultListModel();        
-        for (Post post : control.getPostRepository().buscarTodas(control.getPostRepository().crearCollection(mongo))) {
-            if(post.getUsuario().getId().toString()
-                    .equals(usuario.getId().toString())){           
-                for (Comentario comentario : post.getComentarios()) {
-                    listModel.addElement(comentario); 
-                }                    
+    public void mostrarComentarios() {
+        DefaultListModel listModel = new DefaultListModel();
+        if (publicacion.getUsuario().getId().toString()
+                .equals(usuario.getId().toString())) {
+            for (Comentario comentario : publicacion.getComentarios()) {
+                listModel.addElement(comentario);
             }
         }
         jlComentarios.setModel(listModel);
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -165,22 +167,36 @@ public class EliminacionComentario extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        ArrayList<Comentario> comentarios = new ArrayList<>();
-        
-        for (int i = 0; i < jlComentarios.getSelectedValues().length; i++) {
-            comentarios.add((Comentario)jlComentarios.getSelectedValues()[i]);
-        }        
-            
-        for (Comentario comentario : comentarios) {            
-            control.getPostRepository().eliminar(control.getPostRepository().crearCollection(mongo), comentario.getId());
-        }       
 
-        JOptionPane.showMessageDialog(this, "Operacion exitosa",
-                "Mensaje", JOptionPane.INFORMATION_MESSAGE);
-        mostrarComentarios();
-//        EliminacionPost frmep = new EliminacionPost(usuario, mongo);        
-//        frmep.setVisible(true);
-        this.setVisible(false);
+        ArrayList<Comentario> comentarios = new ArrayList<>();
+        ArrayList<Comentario> comentariosAtualizados = new ArrayList<>();
+        for (int i = 0; i < jlComentarios.getSelectedValues().length; i++) {
+            comentarios.add((Comentario) jlComentarios.getSelectedValues()[i]);
+        }
+        if (comentarios.size() == 1) {
+            for (Comentario comentario : publicacion.getComentarios()) {
+                comentariosAtualizados.add(comentario);
+            }
+
+            for (Comentario comentario : comentarios) {
+                comentariosAtualizados.remove(comentario);
+            }
+
+            publicacion.setComentarios(comentariosAtualizados);
+
+            control.getPostRepository().actualizar(control.getPostRepository().crearCollection(mongo), this.publicacion);
+
+            JOptionPane.showMessageDialog(this, "Operacion exitosa",
+                    "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+            mostrarComentarios();
+            EliminacionPost frmep = new EliminacionPost(usuario, mongo);
+            frmep.setVisible(true);
+            this.setVisible(false);
+        } else {
+            JOptionPane.showMessageDialog(this, "Selecciona un comentario",
+                    "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+        }
+
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -190,7 +206,6 @@ public class EliminacionComentario extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;

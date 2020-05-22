@@ -1,4 +1,3 @@
-
 package Frame;
 
 import Repositorios.Control;
@@ -17,10 +16,11 @@ import javax.swing.JOptionPane;
  * @author Estefanía Aguilar
  */
 public class FrmPantallaInicio extends javax.swing.JFrame {
+
     Control control;
     Usuario usuario;
     MongoDatabase mongo;
-    
+
     public FrmPantallaInicio(Frame padre, MongoDatabase mongo, Usuario usuario) {
         initComponents();
         this.setTitle("Faceboot");
@@ -28,7 +28,7 @@ public class FrmPantallaInicio extends javax.swing.JFrame {
         control = new Control();
         this.mongo = mongo;
         this.usuario = usuario;
-        
+
         mostrarPublicaciones();
     }
 
@@ -175,7 +175,7 @@ public class FrmPantallaInicio extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void MenuUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MenuUsuarioMouseClicked
-        
+
     }//GEN-LAST:event_MenuUsuarioMouseClicked
 
     private void menuEditarPostMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuEditarPostMouseClicked
@@ -189,8 +189,8 @@ public class FrmPantallaInicio extends javax.swing.JFrame {
     }//GEN-LAST:event_menuEitarDatosActionPerformed
 
     private void lblEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lblEnviarActionPerformed
-       guardar();
-       mostrarPublicaciones();
+        guardar();
+        mostrarPublicaciones();
     }//GEN-LAST:event_lblEnviarActionPerformed
 
     private void MenuEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuEliminarActionPerformed
@@ -214,74 +214,74 @@ public class FrmPantallaInicio extends javax.swing.JFrame {
         BusquedaPosts frmbp = new BusquedaPosts(this.usuario, this.mongo);
         frmbp.setVisible(true);
         this.setVisible(false);
-        
+
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem1MouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem1MouseClicked
 
-    public void mostrarPublicaciones(){
+    public void mostrarPublicaciones() {
         //Obtengo todas las publicaciones de la base de datos.
-        ArrayList<Post> publiciones = 
-                control.getPostRepository().buscarTodas(control.getPostRepository().crearCollection(mongo));
-        //Ordenar las publicaciones por orden             
-        
+        ArrayList<Post> publiciones = reorganizarPublicaciones();
+        //Ordenar las publicaciones por orden        
+
         //Creo una lista donde iran los formatos
         ArrayList<Publicacion> formatoPost = new ArrayList<>();
         //Creo los formatos con la lista de publicaciones de la base de datos
         for (Post publicacion : publiciones) {
             formatoPost.add(new Publicacion(mongo, publicacion, usuario));
         }
-        
+
         //Agrego los formatos al panel
         for (Publicacion publicacion : formatoPost) {
             PanelPublicaciones.add(publicacion);
             PanelPublicaciones.updateUI();
-        }       
+        }
     }
-    
-    public void guardar(){
+
+    public void guardar() {
         //Separar mensaje de tags
         String mensajeCompleto = txtMensaje.getText();
         String mensaje = "";
         String tag = " ";
         ArrayList<String> tags = new ArrayList<>();
-            for (int i = 0; i < mensajeCompleto.length(); i++) {
-            if(mensajeCompleto.charAt(i)=='#'){
-                i++; 
-                while(i < mensajeCompleto.length()){
-                    if(mensajeCompleto.charAt(i)!=' '){
-                       tag = tag + mensajeCompleto.charAt(i);
-                       i++; 
-                    }else{
+        for (int i = 0; i < mensajeCompleto.length(); i++) {
+            if (mensajeCompleto.charAt(i) == '#') {
+                i++;
+                while (i < mensajeCompleto.length()) {
+                    if (mensajeCompleto.charAt(i) != ' ') {
+                        tag = tag + mensajeCompleto.charAt(i);
+                        i++;
+                    } else {
                         break;
                     }
                 }
-                    tags.add(tag);
-                    tag = "";
-            }else{
+                tags.add(tag);
+                tag = "";
+            } else {
                 mensaje = mensaje + mensajeCompleto.charAt(i);
             }
         }
-        
+
         control.getPostRepository().crearDocument(control.getPostRepository().crearCollection(mongo),
                 new Post(new Date(), mensaje, tags, usuario));
         JOptionPane.showMessageDialog(this, "Se ha agregado una nueva publicación",
                 "Alerta", JOptionPane.INFORMATION_MESSAGE);
-        
+
         txtMensaje.setText("");
-        
     }
-    
-    public static void reorganizarPublicaciones(ArrayList<Post> publicaciones) {
-        for (int i = 0; i < publicaciones.size(); i++) {
-            Post aux = publicaciones.get(publicaciones.size() - 1);
-            publicaciones.add(0, aux);
-            publicaciones.remove(publicaciones.size() - 1);
+
+    public ArrayList<Post> reorganizarPublicaciones() {
+        ArrayList<Post> publicaciones
+                = control.getPostRepository().buscarTodas(control.getPostRepository().crearCollection(mongo));
+        ArrayList<Post> AuxOrganizados = new ArrayList<>();
+        for (int i = publicaciones.size(); i == 0; i--) {
+            AuxOrganizados.add(publicaciones.get(i));
         }
+        return AuxOrganizados;
     }
- 
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem MenuEliminar;
     private javax.swing.JMenu MenuUsuario;
