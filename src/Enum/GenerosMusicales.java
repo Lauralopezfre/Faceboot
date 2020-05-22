@@ -10,5 +10,5 @@ package Enum;
  * @author laura
  */
 public enum GenerosMusicales {
-    Banda, Norteño, Pop, Reggaeton, Bachata;
+    Banda, Norteño, Pop, Reggaeton, Bachata, Jazz, Rock, Country, Electronica;
 }

@@ -1,6 +1,7 @@
 package Frame;
 
 import Repositorios.Control;
+import TextPrompt.TextPrompt;
 import com.mongodb.client.MongoDatabase;
 import com.sun.istack.internal.FragmentContentHandler;
 import entity.Post;
@@ -21,6 +22,12 @@ public class FrmPantallaInicio extends javax.swing.JFrame {
     Usuario usuario;
     MongoDatabase mongo;
 
+    /**
+     * Método constructor que se encarga de inicializar el frame de pantalla de inicio
+     * @param padre Frame donde es llamado.
+     * @param mongo Base de datos de Faceboot.
+     * @param usuario Usuario que inicio sesión.
+     */
     public FrmPantallaInicio(Frame padre, MongoDatabase mongo, Usuario usuario) {
         initComponents();
         this.setTitle("Faceboot");
@@ -28,7 +35,8 @@ public class FrmPantallaInicio extends javax.swing.JFrame {
         control = new Control();
         this.mongo = mongo;
         this.usuario = usuario;
-
+        lblNombreUsuario.setText(usuario.getNombre());
+        mensajeCamposTexto();
         mostrarPublicaciones();
     }
 
@@ -47,6 +55,8 @@ public class FrmPantallaInicio extends javax.swing.JFrame {
         txtMensaje = new javax.swing.JTextField();
         lblEnviar = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
+        lblHola = new javax.swing.JLabel();
+        lblNombreUsuario = new javax.swing.JLabel();
         jmenu = new javax.swing.JMenuBar();
         MenuUsuario = new javax.swing.JMenu();
         menuEitarDatos = new javax.swing.JMenuItem();
@@ -78,6 +88,11 @@ public class FrmPantallaInicio extends javax.swing.JFrame {
         });
 
         jLabel2.setText("¿Qué estás pensando?");
+
+        lblHola.setFont(new java.awt.Font("Calibri Light", 0, 24)); // NOI18N
+        lblHola.setText("Hola:");
+
+        lblNombreUsuario.setFont(new java.awt.Font("Calibri Light", 1, 24)); // NOI18N
 
         jmenu.setToolTipText("");
 
@@ -144,31 +159,40 @@ public class FrmPantallaInicio extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane1)
             .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
+                .addGap(21, 21, 21)
                 .addComponent(lblIcono)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(413, Short.MAX_VALUE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(txtMensaje)
-                        .addGap(18, 18, 18)
-                        .addComponent(lblEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(20, 20, 20))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtMensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 446, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblHola, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblNombreUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(28, 28, 28))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblHola, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblNombreUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(lblIcono, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lblEnviar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtMensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 451, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -189,7 +213,11 @@ public class FrmPantallaInicio extends javax.swing.JFrame {
     }//GEN-LAST:event_menuEitarDatosActionPerformed
 
     private void lblEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lblEnviarActionPerformed
+        //Guarda la publicación
         guardar();
+        //Elimina las publicaciones que ya estaban en pantalla
+        PanelPublicaciones.removeAll();
+        //Vuelve a mostrar con la nueva publicación.
         mostrarPublicaciones();
     }//GEN-LAST:event_lblEnviarActionPerformed
 
@@ -221,6 +249,9 @@ public class FrmPantallaInicio extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem1MouseClicked
 
+    /**
+     * Método que se encarga de mostrar todas las publicaciones en la pantalla de inicio.
+     */
     public void mostrarPublicaciones() {
         //Obtengo todas las publicaciones de la base de datos.
         ArrayList<Post> publiciones = reorganizarPublicaciones();
@@ -228,11 +259,11 @@ public class FrmPantallaInicio extends javax.swing.JFrame {
 
         //Creo una lista donde iran los formatos
         ArrayList<Publicacion> formatoPost = new ArrayList<>();
+        
         //Creo los formatos con la lista de publicaciones de la base de datos
         for (Post publicacion : publiciones) {
             formatoPost.add(new Publicacion(mongo, publicacion, usuario));
         }
-
         //Agrego los formatos al panel
         for (Publicacion publicacion : formatoPost) {
             PanelPublicaciones.add(publicacion);
@@ -240,7 +271,13 @@ public class FrmPantallaInicio extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Método que se encarga de guardar la publicación en la base de datos.
+     */
     public void guardar() {
+        //Primero valida que se haya ingreso un mensaje antes.
+        if(!txtMensaje.getText().equalsIgnoreCase("")){
+        
         //Separar mensaje de tags
         String mensajeCompleto = txtMensaje.getText();
         String mensaje = "";
@@ -263,24 +300,49 @@ public class FrmPantallaInicio extends javax.swing.JFrame {
                 mensaje = mensaje + mensajeCompleto.charAt(i);
             }
         }
-
+        
+        //Almacena en la base de datos.
         control.getPostRepository().crearDocument(control.getPostRepository().crearCollection(mongo),
                 new Post(new Date(), mensaje, tags, usuario));
+        
+        //Muestra un mensaje indicando que la operación se ha realizado con exito.
         JOptionPane.showMessageDialog(this, "Se ha agregado una nueva publicación",
-                "Alerta", JOptionPane.INFORMATION_MESSAGE);
+                "Operación exitosa", JOptionPane.INFORMATION_MESSAGE);
 
+        //Limpia el campo para ingresar una nueva publicación.
         txtMensaje.setText("");
+        }else{
+            //Si no se ha ingreso un mensaje entonces muestra un mensaje indicandolo.
+            JOptionPane.showMessageDialog(this, "No ha creado un mensaje",
+                "Alerta", JOptionPane.WARNING_MESSAGE);
+        }
     }
 
+    /**
+     * Método que se encarga de organizar las publicaciones del mas reciente al mas viejo.
+     * @return Publicaciones ordenadas
+     */
     public ArrayList<Post> reorganizarPublicaciones() {
+        //Obtiene todas las publicaciones de la base de datos.
         ArrayList<Post> publicaciones
                 = control.getPostRepository().buscarTodas(control.getPostRepository().crearCollection(mongo));
+        //Lista que almacenara las publicaciones ordenadas.
         ArrayList<Post> AuxOrganizados = new ArrayList<>();
-        for (int i = publicaciones.size(); i == 0; i--) {
+        //Recorre la lista de publicaciones.
+        for (int i = publicaciones.size()-1; i >= 0; i--) {
             AuxOrganizados.add(publicaciones.get(i));
         }
+        //Regresa la lista con las publicaciones ordenadas.
         return AuxOrganizados;
     }
+    /**
+     * Método que se encarga de mostrar un mensaje en los campos de textos.
+     */
+    public void mensajeCamposTexto(){
+        //Campo de nombre
+        TextPrompt nombre = new TextPrompt("Ej. Buenos dias a todos #FelizLunes #BuenosDias", txtMensaje);
+    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem MenuEliminar;
@@ -291,7 +353,9 @@ public class FrmPantallaInicio extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JMenuBar jmenu;
     private javax.swing.JButton lblEnviar;
+    private javax.swing.JLabel lblHola;
     private javax.swing.JLabel lblIcono;
+    private javax.swing.JLabel lblNombreUsuario;
     private javax.swing.JMenuItem menuCerrarSesion;
     private javax.swing.JMenu menuEditarPost;
     private javax.swing.JMenuItem menuEitarDatos;

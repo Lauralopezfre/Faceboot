@@ -106,7 +106,7 @@ public class Post {
     public String toString() {
         String mensaje = getMensaje();
         for (String tag : getTags()) {
-            mensaje = mensaje + tag;
+            mensaje = mensaje + " #"+ tag;
         }
         return mensaje;
     }

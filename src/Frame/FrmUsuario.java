@@ -8,6 +8,7 @@ package Frame;
 import Enum.GenerosMusicales;
 import Enum.Sexo;
 import Repositorios.Control;
+import TextPrompt.TextPrompt;
 import com.mongodb.client.MongoDatabase;
 import entity.Usuario;
 import java.awt.Frame;
@@ -29,9 +30,14 @@ public class FrmUsuario extends javax.swing.JFrame {
     Control control;
     Usuario usuario;
     MongoDatabase database;
-    
     List<String> peliculas;
     
+    /**
+     * Método contructor que se encarga de inicializar el frame.
+     * @param padre Frame donde es llamado.
+     * @param database Base de datos de Faceboot
+     * @param usuario Usuario que ingreso al sistema o si se va a registrar es null.
+     */
     public FrmUsuario(Frame padre, MongoDatabase database, Usuario usuario) {
         initComponents();
         this.setTitle("Faceboot");
@@ -39,7 +45,12 @@ public class FrmUsuario extends javax.swing.JFrame {
         control = new Control();
         this.usuario = usuario;
         this.database = database;
-        //Si el frame viene para registrar o editar.
+        
+        /*
+        Si el frame es utilizado para editar entonces todos los campos
+        se inhabilitan para que se muestren solamente los valores del usuario y
+        el boton se cambia a editar que despues se encarga de habilitar los campos.
+        */
         if(usuario != null){
             mostrarInformacion();
             txtNombre.setEditable(false);
@@ -55,9 +66,14 @@ public class FrmUsuario extends javax.swing.JFrame {
             peliculas = usuario.getPeliculas();
             
         }else{
+            /*
+            El frame es utilizado para registrar entonces el boton se nombra a Guardar
+            y se llenan los campos de generos de peliculas y el sexo.
+            */
             btnAceptar.setText("Guardar");
             llenarCampos();
             peliculas = new ArrayList<>();
+            mensajeCamposTexto();
         }
     }
 
@@ -72,7 +88,7 @@ public class FrmUsuario extends javax.swing.JFrame {
 
         dateTimePicker1 = new com.github.lgooddatepicker.components.DateTimePicker();
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        lblRegistroUsuario = new javax.swing.JLabel();
         lblUsuario = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         txtNombre = new javax.swing.JTextField();
@@ -107,13 +123,13 @@ public class FrmUsuario extends javax.swing.JFrame {
         jPanel1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setText("USUARIO");
-        jLabel1.setFont(new java.awt.Font("Arial Black", 0, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 20, -1, -1));
+        lblRegistroUsuario.setText("Usuario");
+        lblRegistroUsuario.setFont(new java.awt.Font("Calibri Light", 0, 28)); // NOI18N
+        lblRegistroUsuario.setForeground(new java.awt.Color(255, 255, 255));
+        jPanel1.add(lblRegistroUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 20, -1, 40));
 
         lblUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/avatar user.png"))); // NOI18N
-        jPanel1.add(lblUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 10, -1, 40));
+        jPanel1.add(lblUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 10, -1, 50));
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -210,7 +226,7 @@ public class FrmUsuario extends javax.swing.JFrame {
                 txtPeliculaActionPerformed(evt);
             }
         });
-        jPanel2.add(txtPelicula, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 330, 214, 40));
+        jPanel2.add(txtPelicula, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 330, 214, 30));
 
         txtContrasenia.setFont(new java.awt.Font("Calibri Light", 0, 18)); // NOI18N
         txtContrasenia.addActionListener(new java.awt.event.ActionListener() {
@@ -227,7 +243,7 @@ public class FrmUsuario extends javax.swing.JFrame {
         btnAgregarPelicula.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/add.png"))); // NOI18N
         btnAgregarPelicula.setText("Agregar película");
         btnAgregarPelicula.setActionCommand("Agregar pelicula");
-        btnAgregarPelicula.setBackground(new java.awt.Color(153, 153, 153));
+        btnAgregarPelicula.setBackground(new java.awt.Color(204, 204, 204));
         btnAgregarPelicula.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnAgregarPelicula.setFont(new java.awt.Font("Calibri Light", 0, 18)); // NOI18N
         btnAgregarPelicula.addActionListener(new java.awt.event.ActionListener() {
@@ -235,7 +251,7 @@ public class FrmUsuario extends javax.swing.JFrame {
                 btnAgregarPeliculaActionPerformed(evt);
             }
         });
-        jPanel2.add(btnAgregarPelicula, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 330, 190, 40));
+        jPanel2.add(btnAgregarPelicula, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 320, 190, 50));
 
         btnAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/si.png"))); // NOI18N
         btnAceptar.setText("Aceptar");
@@ -281,9 +297,9 @@ public class FrmUsuario extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 590, Short.MAX_VALUE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 585, Short.MAX_VALUE))
         );
 
         pack();
@@ -310,6 +326,11 @@ public class FrmUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_txtContraseniaActionPerformed
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
+        /*
+        Si el boton dice "Editar" entonces lo que hara es habilitar todos los campos
+        para que el usuario pueda editar sus datos entonces el nombre del boton cambia 
+        a Actualizar, para actualizar todos sus valores.
+        */
         if(btnAceptar.getText().equalsIgnoreCase("Editar")){
             txtNombre.setEditable(true);
             txtCorreo.setEditable(true);
@@ -323,9 +344,17 @@ public class FrmUsuario extends javax.swing.JFrame {
             llenarCampos();
             btnAceptar.setText("Actualizar");
         }
+        /*
+        Si el boton dice "Actualizar" entonces se actualizan los nuevos datos 
+        ingresados por el usuario.
+        */
         else if(btnAceptar.getText().equalsIgnoreCase("Actualizar")){
             actualizar();
         }else{
+           /*
+            Si el boton dice "Guardar" entonces la información se registra por primera
+            vez en la base de datos.
+            */
            guardar();     
         }
         
@@ -338,12 +367,20 @@ public class FrmUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnAgregarPeliculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarPeliculaActionPerformed
+       
+        //Se agrega la pelicula indicada en la lista
         peliculas.add(txtPelicula.getText());
+        
+        //Se limpia el campo para ingresar otra pelicula
         txtPelicula.setText("");
+        
+        //En un medelo de List se agrega todas las peliculas de la lista
         DefaultListModel listModel = new DefaultListModel();
         for (String pelicula : peliculas) {
             listModel.addElement(pelicula);
         }
+        
+        //Se agrega el modelo a la lista visual de la peliculas.
         jlPeliculas.setModel(listModel);
     }//GEN-LAST:event_btnAgregarPeliculaActionPerformed
 
@@ -362,41 +399,56 @@ public class FrmUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_txtPeliculaActionPerformed
 
     private void jlPeliculasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlPeliculasMouseClicked
-        //Obtener generos musicales
-
+        //Se obtienen las peliculas que se desean eliminar.
         DefaultListModel modelo = (DefaultListModel) jlPeliculas.getModel();
         int index = jlPeliculas.getSelectedIndex();
         modelo.remove(index);
         
+        //Se eliminan de la lista
         peliculas.remove(index);
         
     }//GEN-LAST:event_jlPeliculasMouseClicked
+    /**
+     * Método que se encarga de mostrar la información del usuario en los campos
+     */
     public void mostrarInformacion(){
+        //Muestra informacion en los campos de texto
         txtNombre.setText(usuario.getNombre());
         txtCorreo.setText(usuario.getCorreo());
         txtEdad.setText(String.valueOf(usuario.getEdad()));
         
+        //Se le da un formato a la fecha
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
         String fechaTexto = formatter.format(usuario.getFechaNacimiento());
         
+        //Muestra información en los campos de texto
         txtFechaNacimiento.setText(fechaTexto);
         cbSexo.setSelectedItem(usuario.getSexo());
         txtContrasenia.setText(usuario.getContrasenia());
         
+        //Muestra las peliculas del usuario
         DefaultListModel listModel = new DefaultListModel();
         for (String pelicula : usuario.getPeliculas()) {
             listModel.addElement(pelicula);
         }
         jlPeliculas.setModel(listModel);
         
+        //Muestra los generos musicales del usuario
          DefaultListModel gm = new DefaultListModel();
         for (GenerosMusicales generos : usuario.getGenerosMusicales()) {
             gm.addElement(generos);
         }
         jlGenerosMusicales.setModel(gm);
     }
+    
+    /**
+     * Método que se encarga de validar si el correo ingresado fue en el formato
+     * correcto
+     * @return Confirma si el correo ingresado es valido.
+     */
     public boolean validarCorreo(){
         
+        //Formato del correo electronico
         Pattern pattern = Pattern
                 .compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
                         + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
@@ -404,16 +456,22 @@ public class FrmUsuario extends javax.swing.JFrame {
         Matcher mather = pattern.matcher(txtCorreo.getText());
         if (mather.find() == true) {            
             return true;
-        } else {            
+        } else { 
+            //Si el correo no esta en formato correcto se muestra un mensaje indicandolo.
             JOptionPane.showMessageDialog(this, "El correo ingresado es inválido.",
                     "Alerta", JOptionPane.WARNING_MESSAGE);
             return false;
         }
     }
+    
+    /**
+     * Método que se encarga de actualizar los valores del usuario.
+     */
     private void actualizar(){
-        //Obtener fecha
+        //Se obtiene la fecha de nacimiento
         String fecha = txtFechaNacimiento.getText();
         
+        //Se le agrega un formato a la fecha
         SimpleDateFormat formatoDelTexto = new SimpleDateFormat("yyyy/MM/dd");
         Date fechaNacimiento = null;
         try {
@@ -422,16 +480,23 @@ public class FrmUsuario extends javax.swing.JFrame {
             ex.printStackTrace();
         }
         
+        //Se obtiene la fecha de hoy.
         Date fechaHoy = new Date();
         
-        //Obtener generos musicales
-        ArrayList<GenerosMusicales> gm = new ArrayList<>();
+        //Se obtienen los generos musicales del usuario
+        List<GenerosMusicales> gm = new ArrayList<>();
         for (int i = 0; i < jlGenerosMusicales.getSelectedValues().length; i++) {
             gm.add((GenerosMusicales)jlGenerosMusicales.getSelectedValues()[i]);
         }
         
-        //Registrar
+        //Si el usuario no selecciono ningun genero musical, la lista sigue igual.
+        if(gm.isEmpty()){
+            gm = usuario.getGenerosMusicales();
+        }
+        
+        //Si los campos son correctos entonces se actualizan los datos.
         if(validarCampos()){
+            //Se asignan los nuevos datos.
             usuario.setContrasenia(txtContrasenia.getText());
             usuario.setCorreo(txtCorreo.getText());
             usuario.setEdad(calcularEdad(fechaNacimiento, fechaHoy));
@@ -441,28 +506,44 @@ public class FrmUsuario extends javax.swing.JFrame {
             usuario.setPeliculas(peliculas);
             usuario.setSexo((Sexo)cbSexo.getSelectedItem());
             
-            //Se guarda en la base de datos
+            //Se guardan los cambios en la base de datos
             control.getUsuarioRepository().actualizar(control.getUsuarioRepository().crearCollection(database), usuario);
             txtEdad.setText(String.valueOf(calcularEdad(fechaNacimiento, fechaHoy)));
+            
+            //Se muestra un mensaje indicando que la operacion fue exitosa
             JOptionPane.showMessageDialog(this, "Se ha actualizado con exito el usuario.",
                 "Alerta", JOptionPane.INFORMATION_MESSAGE);
+            
+            //Regresa a la pantalla de inicio
             FrmPantallaInicio frmPantallaInicio = new FrmPantallaInicio(this, database, usuario);
             frmPantallaInicio.setVisible(true);
             this.setVisible(false);
         }
     }
+    
+    /**
+     * Método que se encarga de validar los campos despues llenados por el usuario.
+     * @return Confirma si los campos son correctos.
+     */
     private boolean validarCampos() {
+        
+        //Valida si los campos estan llenos.
         if (!txtNombre.getText().isEmpty()
                 && !txtFechaNacimiento.getText().isEmpty()
                 && !txtCorreo.getText().isEmpty()
                 && !txtContrasenia.getText().isEmpty()) {
             return true;
         }
+        
+        //Muestra un mensaje indicando si los campos estan llenos.
         JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios",
                 "Alerta", JOptionPane.WARNING_MESSAGE);
         return false;
     }
     
+    /**
+    *Método que se encarga de llenar los campos de generos musicales y sexo.
+    */
     private void llenarCampos(){
         
         //Llenar lista de generos
@@ -472,6 +553,10 @@ public class FrmUsuario extends javax.swing.JFrame {
         listModel.addElement(GenerosMusicales.Norteño);
         listModel.addElement(GenerosMusicales.Pop);
         listModel.addElement(GenerosMusicales.Reggaeton);
+        listModel.addElement(GenerosMusicales.Jazz);
+        listModel.addElement(GenerosMusicales.Rock);
+        listModel.addElement(GenerosMusicales.Country);
+        listModel.addElement(GenerosMusicales.Electronica);
         jlGenerosMusicales.setModel(listModel);
         
         //Llenar sexo
@@ -481,10 +566,16 @@ public class FrmUsuario extends javax.swing.JFrame {
         cbSexo.setModel(sexo);
         
     }
+    
+    /**
+     * Método que se encarga de guardar por primera vez en la base de datos la información
+     * registrada por el usuario.
+     */
     private void guardar(){
-        //Obtener fecha
+       //Se obtiene la fecha de nacimiento
         String fecha = txtFechaNacimiento.getText();
         
+        //Se le agrega un formato a la fecha
         SimpleDateFormat formatoDelTexto = new SimpleDateFormat("yyyy/MM/dd");
         Date fechaNacimiento = null;
         try {
@@ -493,36 +584,62 @@ public class FrmUsuario extends javax.swing.JFrame {
             ex.printStackTrace();
         }
         
+        //Se obtiene la fecha de hoy.
         Date fechaHoy = new Date();
         
-        //Obtener generos musicales
-        ArrayList<GenerosMusicales> gm = new ArrayList<>();
+        //Se obtienen los generos musicales del usuario
+        List<GenerosMusicales> gm = new ArrayList<>();
         for (int i = 0; i < jlGenerosMusicales.getSelectedValues().length; i++) {
             gm.add((GenerosMusicales)jlGenerosMusicales.getSelectedValues()[i]);
         }
         
-        //Registrar
+        //Se validan los campos ingresados por el usuario.
         if(validarCampos()){
+            
+            //Crea un nuevo usuario con los valores indicados por el usuario.
             Usuario usuarioNuevo = new Usuario(txtNombre.getText(), txtCorreo.getText(), txtContrasenia.getText(), calcularEdad(fechaNacimiento, fechaHoy), 
                     (Sexo)cbSexo.getSelectedItem(), gm , fechaNacimiento, peliculas);
+            
             //Se guarda en la base de datos
             control.getUsuarioRepository().crearDocument(control.getUsuarioRepository().crearCollection(database), usuarioNuevo);
             txtEdad.setText(String.valueOf(calcularEdad(fechaNacimiento, fechaHoy)));
+            
+            //Se muestra un mensaje de operación exitosa
             JOptionPane.showMessageDialog(this, "Se ha registrado con exito el usuario.",
                 "Alerta", JOptionPane.INFORMATION_MESSAGE);
+            
+            //Regresa al frame de iniciar sesión
             FrmInicioSesion frmInicioSesión = new FrmInicioSesion();
             frmInicioSesión.setVisible(true);
             this.setVisible(false);
         }
     }
+    
+    /**
+     * Método que se encarga de calcular la edad del usuario en base a su fecha de nacimiento.
+     * @param fechaNacimiento Fecha de nacimiento del usuario.
+     * @param fechaActual Fecha actual.
+     * @return Edad del usuario
+     */
     public int calcularEdad(Date fechaNacimiento, Date fechaActual){
         long diferencia = fechaActual.getTime() - fechaNacimiento.getTime();
         double dias = Math.floor(diferencia / (86400000));
         return (int)dias/365;
     }
+
     /**
-     * @param args the command line arguments
+     * Método que se encarga de mostrar un mensaje en los campos de textos.
      */
+    public void mensajeCamposTexto(){
+        //Campo de nombre
+        TextPrompt nombre = new TextPrompt("Obligatorio", txtNombre);
+        //Correo electronico
+        TextPrompt correo = new TextPrompt("Obligatorio", txtCorreo);
+        //Fecha de nacimiento
+        TextPrompt fecha = new TextPrompt("yyyy/MM/dd", txtFechaNacimiento);
+        //Contraseña
+        TextPrompt contrasenia = new TextPrompt("Obligatorio", txtContrasenia);
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -531,7 +648,6 @@ public class FrmUsuario extends javax.swing.JFrame {
     private javax.swing.JButton btnCancelar;
     private javax.swing.JComboBox<String> cbSexo;
     private com.github.lgooddatepicker.components.DateTimePicker dateTimePicker1;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
@@ -547,6 +663,7 @@ public class FrmUsuario extends javax.swing.JFrame {
     private javax.swing.JLabel lblIconoPeliculas;
     private javax.swing.JLabel lblNombre1;
     private javax.swing.JLabel lblPeliculas;
+    private javax.swing.JLabel lblRegistroUsuario;
     private javax.swing.JLabel lblSexo;
     private javax.swing.JLabel lblUsuario;
     private javax.swing.JTextField txtContrasenia;

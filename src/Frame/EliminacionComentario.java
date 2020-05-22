@@ -24,29 +24,36 @@ public class EliminacionComentario extends javax.swing.JFrame {
     /**
      * Creates new form EliminacionComentario
      */
-    MongoDatabase mongo;
+    MongoDatabase basedatos;
     Control control;
     Usuario usuario;
     Post publicacion;
 
-    public EliminacionComentario(Usuario usuario, Post publicacion, MongoDatabase mongo) {
+    /**
+     * Método constructor que se encarga de inicializar el frame de eliminar comentarios.
+     * @param usuario Usuario que inicio sesión.
+     * @param publicacion Publicacion de la cual se van a mostrar los comentarios.
+     * @param basedatos Base de datos Faceboot.
+     */
+    public EliminacionComentario(Usuario usuario, Post publicacion, MongoDatabase basedatos) {
         initComponents();
         this.setTitle("Faceboot");
         this.setLocationRelativeTo(null);
         control = new Control();
-        this.mongo = mongo;
+        this.basedatos = basedatos;
         this.usuario = usuario;
         this.publicacion = publicacion;
         mostrarComentarios();
     }
-
+    /**
+     * Método que se encarga de mostrar los comentarios de la publicación que solamente pertenescan
+     * al usuario que inicio sesión.
+     */
     public void mostrarComentarios() {
+        //Se valida que todos los comentarios pertenescan al mismo usuario.
         DefaultListModel listModel = new DefaultListModel();
-        if (publicacion.getUsuario().getId().toString()
-                .equals(usuario.getId().toString())) {
-            for (Comentario comentario : publicacion.getComentarios()) {
-                listModel.addElement(comentario);
-            }
+        for (Comentario comentario : publicacion.getComentarios()) {
+            listModel.addElement(comentario);
         }
         jlComentarios.setModel(listModel);
     }
@@ -75,7 +82,7 @@ public class EliminacionComentario extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Calibri Light", 0, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Faceboot");
+        jLabel1.setText("Comentarios");
 
         lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/marcas-y-logotipos.png"))); // NOI18N
 
@@ -83,27 +90,28 @@ public class EliminacionComentario extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(168, 168, 168)
                 .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1)
-                .addGap(131, 131, 131))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(8, Short.MAX_VALUE)
-                .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(24, 24, 24))
         );
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
+        jlComentarios.setFont(new java.awt.Font("Calibri Light", 0, 18)); // NOI18N
         jScrollPane1.setViewportView(jlComentarios);
 
         btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/seo-social-web-network-internet_262_icon-icons.com_61518.png"))); // NOI18N
@@ -125,26 +133,27 @@ public class EliminacionComentario extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(42, 42, 42)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(43, Short.MAX_VALUE))
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(98, 98, 98)
-                .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(84, 84, 84))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(42, 42, 42)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 434, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(154, 154, 154)
+                        .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(73, 73, 73)
+                        .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(17, 17, 17)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(17, Short.MAX_VALUE))
+                    .addComponent(btnCancelar))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -159,8 +168,7 @@ public class EliminacionComentario extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -168,38 +176,59 @@ public class EliminacionComentario extends javax.swing.JFrame {
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
 
+        //Lista con los comentarios que se van a eliminar.
         ArrayList<Comentario> comentarios = new ArrayList<>();
-        ArrayList<Comentario> comentariosAtualizados = new ArrayList<>();
+        //Lista con los comentarios nuevos.
+        List<Comentario> comentariosNuevos = publicacion.getComentarios();
+        //Recorre todas los comentarios seleccionados de la lista.
         for (int i = 0; i < jlComentarios.getSelectedValues().length; i++) {
+            //Los comentarios seleccionadas se agregan a la lista.
             comentarios.add((Comentario) jlComentarios.getSelectedValues()[i]);
         }
-        if (comentarios.size() == 1) {
-            for (Comentario comentario : publicacion.getComentarios()) {
-                comentariosAtualizados.add(comentario);
-            }
-
+        //Valida que se haya seleccionado al menos un comentario para eliminar.
+        if (comentarios.size() > 0) {
+            //Recorre la lista de publicaciones
             for (Comentario comentario : comentarios) {
-                comentariosAtualizados.remove(comentario);
+                /*
+                Valida que el comentario seleccionado le pertenezca al usuario o la publicacion haya sido creada
+                por el usuario.
+                 */
+                if (comentario.getUsuario().getId().toString().equalsIgnoreCase(usuario.getId().toString()) 
+                        || publicacion.getUsuario().getId().toString().equalsIgnoreCase(usuario.getId().toString())) {
+                    //Se eliminan los comentarios seleccionados de la lista.
+                    comentariosNuevos.removeAll(comentarios);
+                    //Se actualiza en la publicación.
+                    publicacion.setComentarios(comentariosNuevos);
+                    //Actualiza la publicación en la base de datos.
+                    control.getPostRepository().actualizar(
+                            control.getPostRepository().crearCollection(basedatos), publicacion);
+                    //Muestra un mensaje indicando que la operación fue exitosa
+                    JOptionPane.showMessageDialog(this, "Operacion exitosa", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+                    //Actualiza la lista ya sin las publicaciones eliminadas.
+                    mostrarComentarios();
+                    //Regresa a la pantalla de inicio
+                    FrmPantallaInicio frmpi = new FrmPantallaInicio(this, basedatos, usuario);
+                    frmpi.setVisible(true);
+                    this.setVisible(false);
+                }else{
+                    //Muestra un mensaje indicando que no se podra eliminar el comentario ya que no es propia del usuario
+                    JOptionPane.showMessageDialog(this, "La publicación " + comentario.getTexto() + " no se puede eliminar ya que no es propia."
+                            + " Vuelve a seleccionar los mensajes.", "Error", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
             }
-
-            publicacion.setComentarios(comentariosAtualizados);
-
-            control.getPostRepository().actualizar(control.getPostRepository().crearCollection(mongo), this.publicacion);
-
-            JOptionPane.showMessageDialog(this, "Operacion exitosa",
-                    "Mensaje", JOptionPane.INFORMATION_MESSAGE);
-            mostrarComentarios();
-            EliminacionPost frmep = new EliminacionPost(usuario, mongo);
-            frmep.setVisible(true);
-            this.setVisible(false);
+            
         } else {
-            JOptionPane.showMessageDialog(this, "Selecciona un comentario",
+            //Si no se ha seleccionado una publicación para eliminar, muestra un mensaje indicandolo.
+            JOptionPane.showMessageDialog(this, "Seleccione uno o varios comentarios.",
                     "Mensaje", JOptionPane.INFORMATION_MESSAGE);
         }
 
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        EliminacionPost eliminacionPost = new EliminacionPost(usuario, basedatos);
+        eliminacionPost.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btnCancelarActionPerformed
 

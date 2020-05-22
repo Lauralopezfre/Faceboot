@@ -6,6 +6,7 @@
 package Frame;
 
 import Repositorios.Control;
+import TextPrompt.TextPrompt;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientOptions;
 import com.mongodb.client.MongoCollection;
@@ -25,14 +26,15 @@ public class FrmInicioSesion extends javax.swing.JFrame {
     Control control;
     MongoDatabase basedatos;
     MongoCollection<Usuario> usuarios;
-    /**
-     * Creates new form FrmInicioSesion
-     */
+    
+    
     public FrmInicioSesion() {
         initComponents();
         this.setTitle("Faceboot");        
         this.setLocationRelativeTo(null);
         control = new Control();
+        
+        mensajeCamposTexto();
         
         //Conexión y creación de la base de datos
         CodecRegistry pojo = fromRegistries(MongoClient.getDefaultCodecRegistry(),
@@ -81,21 +83,21 @@ public class FrmInicioSesion extends javax.swing.JFrame {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(166, 166, 166)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(157, 157, 157))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(16, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(lblLogo)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -202,7 +204,9 @@ public class FrmInicioSesion extends javax.swing.JFrame {
         ingresar();
     }//GEN-LAST:event_btnAceptarActionPerformed
 
-    
+    /**
+     * Método que se encarga de validad el correo y la contraseña creada.
+     */
     public void ingresar(){
         //Se ingreso al sistema correctamente
         Usuario usuario = control.getUsuarioRepository().ingresar(usuarios, txtCorreoElectronico.getText(), txtContrasenia.getText());
@@ -214,6 +218,16 @@ public class FrmInicioSesion extends javax.swing.JFrame {
             //Mensaje de contraseña o correo incorrectos
             JOptionPane.showMessageDialog(this, "Correo electronico o contraseña incorrectos.");
         }    
+    }
+    
+     /**
+     * Método que se encarga de mostrar un mensaje en los campos de textos.
+     */
+    public void mensajeCamposTexto(){
+        //Correo electronico
+        TextPrompt correo = new TextPrompt("Ingrese su correo electronico", txtCorreoElectronico);
+        //Contraseña
+        TextPrompt contrasenia = new TextPrompt("Ingrese su contraseña", txtContrasenia);
     }
      public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {

@@ -70,7 +70,7 @@ public class Comentario {
     @Override
     public String toString() {
         String mensaje = getTexto();
-        return mensaje;
+        return getUsuario().getNombre() + ": " + mensaje;
     }
     
     
