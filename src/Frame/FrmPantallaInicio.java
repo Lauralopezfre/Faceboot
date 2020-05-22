@@ -19,14 +19,14 @@ import javax.swing.JOptionPane;
 public class FrmPantallaInicio extends javax.swing.JFrame {
     Control control;
     Usuario usuario;
-    MongoDatabase basedatos;
+    MongoDatabase mongo;
     
-    public FrmPantallaInicio(Frame padre, MongoDatabase basedatos, Usuario usuario) {
+    public FrmPantallaInicio(Frame padre, MongoDatabase mongo, Usuario usuario) {
         initComponents();
         this.setTitle("Faceboot");
         this.setLocationRelativeTo(null);
         control = new Control();
-        this.basedatos = basedatos;
+        this.mongo = mongo;
         this.usuario = usuario;
         
         mostrarPublicaciones();
@@ -64,6 +64,11 @@ public class FrmPantallaInicio extends javax.swing.JFrame {
         lblIcono.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/avatar.png"))); // NOI18N
 
         txtMensaje.setFont(new java.awt.Font("Calibri Light", 0, 20)); // NOI18N
+        txtMensaje.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtMensajeActionPerformed(evt);
+            }
+        });
 
         lblEnviar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/send.png"))); // NOI18N
         lblEnviar.addActionListener(new java.awt.event.ActionListener() {
@@ -117,6 +122,16 @@ public class FrmPantallaInicio extends javax.swing.JFrame {
         menuEditarPost.add(MenuEliminar);
 
         jMenuItem1.setText("Buscar");
+        jMenuItem1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenuItem1MouseClicked(evt);
+            }
+        });
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
         menuEditarPost.add(jMenuItem1);
 
         jmenu.add(menuEditarPost);
@@ -168,7 +183,7 @@ public class FrmPantallaInicio extends javax.swing.JFrame {
     }//GEN-LAST:event_menuEditarPostMouseClicked
 
     private void menuEitarDatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuEitarDatosActionPerformed
-        FrmUsuario frmUsuario = new FrmUsuario(this, basedatos, usuario);
+        FrmUsuario frmUsuario = new FrmUsuario(this, mongo, usuario);
         frmUsuario.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_menuEitarDatosActionPerformed
@@ -180,7 +195,7 @@ public class FrmPantallaInicio extends javax.swing.JFrame {
 
     private void MenuEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuEliminarActionPerformed
         //Eliminar post
-        EliminacionPost ep = new EliminacionPost(usuario, basedatos);
+        EliminacionPost ep = new EliminacionPost(usuario, mongo);
         ep.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_MenuEliminarActionPerformed
@@ -191,29 +206,42 @@ public class FrmPantallaInicio extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_menuCerrarSesionActionPerformed
 
+    private void txtMensajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMensajeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtMensajeActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        BusquedaPosts frmbp = new BusquedaPosts(this.usuario, this.mongo);
+        frmbp.setVisible(true);
+        this.setVisible(false);
+        
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem1MouseClicked
+
     public void mostrarPublicaciones(){
         //Obtengo todas las publicaciones de la base de datos.
         ArrayList<Post> publiciones = 
-                control.getPostRepository().buscarTodas(control.getPostRepository().crearCollection(basedatos));
-        //Ordenar las publicaciones por orden
-        ArrayList<Post> publicionesOrdenadas = new ArrayList<>();
+                control.getPostRepository().buscarTodas(control.getPostRepository().crearCollection(mongo));
+        //Ordenar las publicaciones por orden             
         
         //Creo una lista donde iran los formatos
         ArrayList<Publicacion> formatoPost = new ArrayList<>();
         //Creo los formatos con la lista de publicaciones de la base de datos
-        for (Post publicion : publiciones) {
-            formatoPost.add(new Publicacion(basedatos, publicion, usuario));
+        for (Post publicacion : publiciones) {
+            formatoPost.add(new Publicacion(mongo, publicacion, usuario));
         }
+        
         //Agrego los formatos al panel
         for (Publicacion publicacion : formatoPost) {
             PanelPublicaciones.add(publicacion);
             PanelPublicaciones.updateUI();
-        }
-        
+        }       
     }
     
     public void guardar(){
-        
         //Separar mensaje de tags
         String mensajeCompleto = txtMensaje.getText();
         String mensaje = "";
@@ -237,10 +265,21 @@ public class FrmPantallaInicio extends javax.swing.JFrame {
             }
         }
         
-        control.getPostRepository().crearDocument(control.getPostRepository().crearCollection(basedatos),
+        control.getPostRepository().crearDocument(control.getPostRepository().crearCollection(mongo),
                 new Post(new Date(), mensaje, tags, usuario));
         JOptionPane.showMessageDialog(this, "Se ha agregado una nueva publicación",
                 "Alerta", JOptionPane.INFORMATION_MESSAGE);
+        
+        txtMensaje.setText("");
+        
+    }
+    
+    public static void reorganizarPublicaciones(ArrayList<Post> publicaciones) {
+        for (int i = 0; i < publicaciones.size(); i++) {
+            Post aux = publicaciones.get(publicaciones.size() - 1);
+            publicaciones.add(0, aux);
+            publicaciones.remove(publicaciones.size() - 1);
+        }
     }
  
     // Variables declaration - do not modify//GEN-BEGIN:variables

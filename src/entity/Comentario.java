@@ -6,12 +6,15 @@
 package entity;
 
 import java.util.Date;
+import org.bson.types.ObjectId;
 
 /**
  *
  * @author laura
  */
 public class Comentario {
+
+    private ObjectId id;    
     private String texto;
     private Date fechaHora;
     private Usuario usuario;
@@ -23,6 +26,21 @@ public class Comentario {
         this.texto = texto;
         this.fechaHora = fechaHora;
         this.usuario = usuario;
+    }
+
+    public Comentario(ObjectId id, String texto, Date fechaHora, Usuario usuario) {
+        this.id = id;
+        this.texto = texto;
+        this.fechaHora = fechaHora;
+        this.usuario = usuario;
+    }
+    
+    public ObjectId getId() {
+        return id;
+    }
+
+    public void setId(ObjectId id) {
+        this.id = id;
     }
 
     public String getTexto() {

@@ -74,10 +74,10 @@ public class Publicacion extends javax.swing.JPanel {
 
         lblNombre.setFont(new java.awt.Font("Calibri Light", 1, 18)); // NOI18N
         lblNombre.setForeground(new java.awt.Color(51, 51, 51));
-        add(lblNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 40, 180, 22));
+        add(lblNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 40, 210, 22));
 
         lblFecha.setFont(new java.awt.Font("Calibri Light", 0, 18)); // NOI18N
-        add(lblFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 40, 280, 20));
+        add(lblFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 40, 240, 20));
 
         lblIcono.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/avatar.png"))); // NOI18N
         add(lblIcono, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 30, -1, 40));
@@ -93,7 +93,7 @@ public class Publicacion extends javax.swing.JPanel {
                 txtComentarioKeyPressed(evt);
             }
         });
-        add(txtComentario, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 310, 420, 30));
+        add(txtComentario, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 310, 470, 30));
 
         btnEnviar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/send.png"))); // NOI18N
         btnEnviar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -102,10 +102,10 @@ public class Publicacion extends javax.swing.JPanel {
                 btnEnviarActionPerformed(evt);
             }
         });
-        add(btnEnviar, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 300, 90, 50));
+        add(btnEnviar, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 310, 50, 30));
 
         lblFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/blancosolido.jpg"))); // NOI18N
-        add(lblFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 600, 320));
+        add(lblFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 610, 360));
     }// </editor-fold>//GEN-END:initComponents
 
     private void lblPublicacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lblPublicacionActionPerformed

@@ -49,8 +49,6 @@ public class Post {
         this.comentarios = comentarios;
     }
 
-    
-
     public Post() {
         comentarios = new ArrayList<>();
         

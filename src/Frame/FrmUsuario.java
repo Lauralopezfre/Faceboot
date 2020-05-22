@@ -110,10 +110,10 @@ public class FrmUsuario extends javax.swing.JFrame {
         jLabel1.setText("USUARIO");
         jLabel1.setFont(new java.awt.Font("Arial Black", 0, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 20, -1, -1));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 20, -1, -1));
 
         lblUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/avatar user.png"))); // NOI18N
-        jPanel1.add(lblUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 10, -1, 40));
+        jPanel1.add(lblUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 10, -1, 40));
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -168,7 +168,7 @@ public class FrmUsuario extends javax.swing.JFrame {
 
         cbSexo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " " }));
         cbSexo.setFont(new java.awt.Font("Calibri Light", 0, 18)); // NOI18N
-        jPanel2.add(cbSexo, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 30, 151, -1));
+        jPanel2.add(cbSexo, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 40, 151, -1));
 
         txtEdad.setEditable(false);
         txtEdad.setFont(new java.awt.Font("Calibri Light", 0, 18)); // NOI18N
@@ -177,15 +177,15 @@ public class FrmUsuario extends javax.swing.JFrame {
                 txtEdadActionPerformed(evt);
             }
         });
-        jPanel2.add(txtEdad, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 80, 150, -1));
+        jPanel2.add(txtEdad, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 90, 150, -1));
 
         lblSexo.setText("Sexo:");
         lblSexo.setFont(new java.awt.Font("Calibri Light", 0, 18)); // NOI18N
-        jPanel2.add(lblSexo, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 40, -1, -1));
+        jPanel2.add(lblSexo, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 50, -1, -1));
 
         lblEdad.setText("Edad:");
         lblEdad.setFont(new java.awt.Font("Calibri Light", 0, 18)); // NOI18N
-        jPanel2.add(lblEdad, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 90, -1, -1));
+        jPanel2.add(lblEdad, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 100, -1, -1));
 
         lblGenerosMusicales.setText("Generos Musicales:");
         lblGenerosMusicales.setFont(new java.awt.Font("Calibri Light", 0, 18)); // NOI18N
