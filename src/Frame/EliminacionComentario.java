@@ -10,6 +10,8 @@ import com.mongodb.client.MongoDatabase;
 import entity.Comentario;
 import entity.Post;
 import entity.Usuario;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
@@ -77,6 +79,7 @@ public class EliminacionComentario extends javax.swing.JFrame {
         btnCancelar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setIconImage(getIconImage());
 
         jPanel1.setBackground(new java.awt.Color(102, 153, 255));
 
@@ -114,14 +117,14 @@ public class EliminacionComentario extends javax.swing.JFrame {
         jlComentarios.setFont(new java.awt.Font("Calibri Light", 0, 18)); // NOI18N
         jScrollPane1.setViewportView(jlComentarios);
 
-        btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/seo-social-web-network-internet_262_icon-icons.com_61518.png"))); // NOI18N
+        btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/basura.png"))); // NOI18N
         btnEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEliminarActionPerformed(evt);
             }
         });
 
-        btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/cancel_stop_exit_1583.png"))); // NOI18N
+        btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/prohibido.png"))); // NOI18N
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelarActionPerformed(evt);
@@ -231,11 +234,13 @@ public class EliminacionComentario extends javax.swing.JFrame {
         eliminacionPost.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btnCancelarActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-
+    
+      @Override
+    public Image getIconImage() {
+        Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("Iconos/marcas-y-logotipos.png"));
+        return retValue;
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnEliminar;

@@ -12,6 +12,8 @@ import com.mongodb.MongoClientOptions;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import entity.Usuario;
+import java.awt.Image;
+import java.awt.Toolkit;
 import javax.swing.JOptionPane;
 import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
 import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
@@ -69,6 +71,7 @@ public class FrmInicioSesion extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Inicio de sesión");
+        setIconImage(getIconImage());
 
         jPanel3.setBackground(new java.awt.Color(51, 153, 255));
         jPanel3.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -117,7 +120,7 @@ public class FrmInicioSesion extends javax.swing.JFrame {
 
         btnAceptar.setBackground(new java.awt.Color(204, 204, 204));
         btnAceptar.setFont(new java.awt.Font("Calibri Light", 0, 18)); // NOI18N
-        btnAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/4115234-login-sign-in_114046.png"))); // NOI18N
+        btnAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/iniciar-sesion.png"))); // NOI18N
         btnAceptar.setText("Iniciar sesión");
         btnAceptar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnAceptar.addActionListener(new java.awt.event.ActionListener() {
@@ -141,7 +144,7 @@ public class FrmInicioSesion extends javax.swing.JFrame {
 
         btnRegistrar.setBackground(new java.awt.Color(204, 204, 204));
         btnRegistrar.setFont(new java.awt.Font("Calibri Light", 0, 18)); // NOI18N
-        btnRegistrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/1486485588-add-create-new-math-sign-cross-plus_81186.png"))); // NOI18N
+        btnRegistrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/anadir.png"))); // NOI18N
         btnRegistrar.setText("Registrarse");
         btnRegistrar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnRegistrar.addActionListener(new java.awt.event.ActionListener() {
@@ -229,6 +232,14 @@ public class FrmInicioSesion extends javax.swing.JFrame {
         //Contraseña
         TextPrompt contrasenia = new TextPrompt("Ingrese su contraseña", txtContrasenia);
     }
+    
+
+      @Override
+    public Image getIconImage() {
+        Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("Iconos/marcas-y-logotipos.png"));
+        return retValue;
+    }
+    
      public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override

@@ -10,6 +10,8 @@ import Repositorios.Control;
 import com.mongodb.client.MongoDatabase;
 import entity.Post;
 import entity.Usuario;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
@@ -70,6 +72,7 @@ public class EliminacionPost extends javax.swing.JFrame {
         btnComentarios = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setIconImage(getIconImage());
 
         jPanel1.setBackground(new java.awt.Color(102, 153, 255));
         jPanel1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -109,7 +112,7 @@ public class EliminacionPost extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jlPublicaciones);
 
         btnEliminar.setFont(new java.awt.Font("Calibri", 0, 18)); // NOI18N
-        btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/seo-social-web-network-internet_262_icon-icons.com_61518.png"))); // NOI18N
+        btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/basura.png"))); // NOI18N
         btnEliminar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -118,7 +121,7 @@ public class EliminacionPost extends javax.swing.JFrame {
         });
 
         btnCancekar.setFont(new java.awt.Font("Calibri", 0, 18)); // NOI18N
-        btnCancekar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/cancel_stop_exit_1583.png"))); // NOI18N
+        btnCancekar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/prohibido.png"))); // NOI18N
         btnCancekar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnCancekar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -126,7 +129,7 @@ public class EliminacionPost extends javax.swing.JFrame {
             }
         });
 
-        btnComentarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/comments_alt_icon_125319.png"))); // NOI18N
+        btnComentarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/bocadillo32.png"))); // NOI18N
         btnComentarios.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnComentarios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -140,13 +143,13 @@ public class EliminacionPost extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(33, 33, 33)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(168, 168, 168)
+                        .addComponent(btnCancekar, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(166, 166, 166)
                         .addComponent(btnComentarios, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(152, 152, 152)
-                        .addComponent(btnCancekar, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 534, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(35, Short.MAX_VALUE))
         );
@@ -257,6 +260,13 @@ public class EliminacionPost extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Seleccione una o varias publicaciones.",
                     "Mensaje", JOptionPane.INFORMATION_MESSAGE);
         }
+    }
+    
+    
+      @Override
+    public Image getIconImage() {
+        Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("Iconos/marcas-y-logotipos.png"));
+        return retValue;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

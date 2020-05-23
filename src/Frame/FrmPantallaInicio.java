@@ -7,6 +7,8 @@ import com.sun.istack.internal.FragmentContentHandler;
 import entity.Post;
 import entity.Usuario;
 import java.awt.Frame;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -51,12 +53,13 @@ public class FrmPantallaInicio extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         PanelPublicaciones = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        lblNombreUsuario = new javax.swing.JLabel();
         lblIcono = new javax.swing.JLabel();
         txtMensaje = new javax.swing.JTextField();
         lblEnviar = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         lblHola = new javax.swing.JLabel();
-        lblNombreUsuario = new javax.swing.JLabel();
         jmenu = new javax.swing.JMenuBar();
         MenuUsuario = new javax.swing.JMenu();
         menuEitarDatos = new javax.swing.JMenuItem();
@@ -66,12 +69,20 @@ public class FrmPantallaInicio extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setIconImage(getIconImage());
 
         PanelPublicaciones.setBackground(new java.awt.Color(204, 204, 255));
         PanelPublicaciones.setLayout(new java.awt.GridLayout(100, 0));
         jScrollPane1.setViewportView(PanelPublicaciones);
 
+        jPanel1.setBackground(new java.awt.Color(102, 153, 255));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        lblNombreUsuario.setFont(new java.awt.Font("Calibri Light", 1, 24)); // NOI18N
+        jPanel1.add(lblNombreUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 20, 384, 30));
+
         lblIcono.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/avatar.png"))); // NOI18N
+        jPanel1.add(lblIcono, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, -1, 40));
 
         txtMensaje.setFont(new java.awt.Font("Calibri Light", 0, 20)); // NOI18N
         txtMensaje.addActionListener(new java.awt.event.ActionListener() {
@@ -79,6 +90,7 @@ public class FrmPantallaInicio extends javax.swing.JFrame {
                 txtMensajeActionPerformed(evt);
             }
         });
+        jPanel1.add(txtMensaje, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 80, 446, 40));
 
         lblEnviar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/send.png"))); // NOI18N
         lblEnviar.addActionListener(new java.awt.event.ActionListener() {
@@ -86,13 +98,14 @@ public class FrmPantallaInicio extends javax.swing.JFrame {
                 lblEnviarActionPerformed(evt);
             }
         });
+        jPanel1.add(lblEnviar, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 80, 80, 40));
 
         jLabel2.setText("¿Qué estás pensando?");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 50, 145, -1));
 
         lblHola.setFont(new java.awt.Font("Calibri Light", 0, 24)); // NOI18N
         lblHola.setText("Hola:");
-
-        lblNombreUsuario.setFont(new java.awt.Font("Calibri Light", 1, 24)); // NOI18N
+        jPanel1.add(lblHola, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 20, 56, -1));
 
         jmenu.setToolTipText("");
 
@@ -157,42 +170,15 @@ public class FrmPantallaInicio extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 631, Short.MAX_VALUE)
             .addComponent(jScrollPane1)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addComponent(lblIcono)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtMensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 446, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblHola, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblNombreUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lblEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(28, 28, 28))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblHola, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblNombreUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(lblIcono, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblEnviar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(txtMensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 451, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 469, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -343,6 +329,12 @@ public class FrmPantallaInicio extends javax.swing.JFrame {
         TextPrompt nombre = new TextPrompt("Ej. Buenos dias a todos #FelizLunes #BuenosDias", txtMensaje);
     }
     
+    
+      @Override
+    public Image getIconImage() {
+        Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("Iconos/marcas-y-logotipos.png"));
+        return retValue;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem MenuEliminar;
@@ -350,6 +342,7 @@ public class FrmPantallaInicio extends javax.swing.JFrame {
     private javax.swing.JPanel PanelPublicaciones;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JMenuBar jmenu;
     private javax.swing.JButton lblEnviar;

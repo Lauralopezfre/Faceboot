@@ -10,6 +10,8 @@ import TextPrompt.TextPrompt;
 import com.mongodb.client.MongoDatabase;
 import entity.Post;
 import entity.Usuario;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
@@ -24,7 +26,9 @@ public class BusquedaPosts extends javax.swing.JFrame {
     Usuario usuario;
 
     /**
-     * Método constructor que se encarga de inicializar el frame de busqueda de post por tags
+     * Método constructor que se encarga de inicializar el frame de busqueda de
+     * post por tags
+     *
      * @param usuario Usuario que inicio sesión.
      * @param basedatos Base de datos de Faceboot.
      */
@@ -53,6 +57,7 @@ public class BusquedaPosts extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setIconImage(getIconImage());
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -171,7 +176,7 @@ public class BusquedaPosts extends javax.swing.JFrame {
         for (Post publicacion : publicaciones) {
             formatoPost.add(new Publicacion(basedatos, publicacion, usuario));
         }
-        
+
         //Valida si se ingreso un tag.
         if (!txtBusqueda.getText().isEmpty()) {
             //Agrego los formatos al panel
@@ -193,30 +198,39 @@ public class BusquedaPosts extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegresarActionPerformed
 
     /**
-      * Método que se encarga de organizar las publicaciones del mas reciente al mas viejo.
-      * @return Publicaciones ordenadas
-      */
-     public ArrayList<Post> reorganizarPublicaciones() {
-         //Obtiene todas las publicaciones de la base de datos.
-         ArrayList<Post> publicaciones
-                 = control.getPostRepository().buscarTodas(control.getPostRepository().crearCollection(basedatos));
-         //Lista que almacenara las publicaciones ordenadas.
-         ArrayList<Post> AuxOrganizados = new ArrayList<>();
-         //Recorre la lista de publicaciones.
-         for (int i = publicaciones.size()-1; i >= 0; i--) {
-             AuxOrganizados.add(publicaciones.get(i));
-         }
-         //Regresa la lista con las publicaciones ordenadas.
-         return AuxOrganizados;
-     }
-    
+     * Método que se encarga de organizar las publicaciones del mas reciente al
+     * mas viejo.
+     *
+     * @return Publicaciones ordenadas
+     */
+    public ArrayList<Post> reorganizarPublicaciones() {
+        //Obtiene todas las publicaciones de la base de datos.
+        ArrayList<Post> publicaciones
+                = control.getPostRepository().buscarTodas(control.getPostRepository().crearCollection(basedatos));
+        //Lista que almacenara las publicaciones ordenadas.
+        ArrayList<Post> AuxOrganizados = new ArrayList<>();
+        //Recorre la lista de publicaciones.
+        for (int i = publicaciones.size() - 1; i >= 0; i--) {
+            AuxOrganizados.add(publicaciones.get(i));
+        }
+        //Regresa la lista con las publicaciones ordenadas.
+        return AuxOrganizados;
+    }
+
     /**
      * Método que se encarga de mostrar un mensaje en los campos de textos.
      */
-    public void mensajeCamposTexto(){
+    public void mensajeCamposTexto() {
         //Campo de nombre
         TextPrompt tag = new TextPrompt("Ej. FelizLunes", txtBusqueda);
     }
+
+    @Override
+    public Image getIconImage() {
+        Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("Iconos/marcas-y-logotipos.png"));
+        return retValue;
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel PanelPublicaciones;
