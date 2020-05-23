@@ -175,12 +175,17 @@ public class BusquedaPosts extends javax.swing.JFrame {
         ArrayList<Post> publicaciones = reorganizarPublicaciones();
 
         //Recorre la lista buscando las publicaciones que coincidan con el tag dado.
-        for (Post publicacion : publicaciones) {
-            formatoPost.add(new Publicacion(basedatos, publicacion, usuario));
-        }
-
         //Valida si se ingreso un tag.
         if (!txtBusqueda.getText().isEmpty()) {
+            for (Post publicacion : publicaciones) {
+                for (String tag : publicacion.getTags()) {
+                    if (tag.equalsIgnoreCase(txtBusqueda.getText())) {
+                        formatoPost.add(new Publicacion(basedatos, publicacion, usuario));
+                        break;
+                    }
+                }
+            }
+
             //Agrego los formatos al panel
             for (Publicacion publicacion : formatoPost) {
                 PanelPublicaciones.add(publicacion);

@@ -268,7 +268,7 @@ public class FrmPantallaInicio extends javax.swing.JFrame {
         //Separar mensaje de tags
         String mensajeCompleto = txtMensaje.getText();
         String mensaje = "";
-        String tag = " ";
+        String tag = "";
         ArrayList<String> tags = new ArrayList<>();
         for (int i = 0; i < mensajeCompleto.length(); i++) {
             if (mensajeCompleto.charAt(i) == '#') {

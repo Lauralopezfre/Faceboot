@@ -429,6 +429,11 @@ public class FrmUsuario extends javax.swing.JFrame {
 
         //Muestra información en los campos de texto
         txtFechaNacimiento.setText(fechaTexto);
+        //Llenar sexo
+        DefaultComboBoxModel sexo = new DefaultComboBoxModel();
+        sexo.addElement(Sexo.femenino);
+        sexo.addElement(Sexo.masculino);
+        cbSexo.setModel(sexo);
         cbSexo.setSelectedItem(usuario.getSexo());
         txtContrasenia.setText(usuario.getContrasenia());
         txtContrasenia2.setText(usuario.getContrasenia());
