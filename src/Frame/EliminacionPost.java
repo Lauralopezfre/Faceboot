@@ -113,6 +113,7 @@ public class EliminacionPost extends javax.swing.JFrame {
 
         btnEliminar.setFont(new java.awt.Font("Calibri", 0, 18)); // NOI18N
         btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/basura.png"))); // NOI18N
+        btnEliminar.setToolTipText("Eliminar");
         btnEliminar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -122,6 +123,7 @@ public class EliminacionPost extends javax.swing.JFrame {
 
         btnCancekar.setFont(new java.awt.Font("Calibri", 0, 18)); // NOI18N
         btnCancekar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/prohibido.png"))); // NOI18N
+        btnCancekar.setToolTipText("Cancelar");
         btnCancekar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnCancekar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -130,6 +132,7 @@ public class EliminacionPost extends javax.swing.JFrame {
         });
 
         btnComentarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/bocadillo32.png"))); // NOI18N
+        btnComentarios.setToolTipText("Comentarios");
         btnComentarios.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnComentarios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

@@ -118,6 +118,7 @@ public class EliminacionComentario extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jlComentarios);
 
         btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/basura.png"))); // NOI18N
+        btnEliminar.setToolTipText("Eliminar");
         btnEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEliminarActionPerformed(evt);
@@ -125,6 +126,7 @@ public class EliminacionComentario extends javax.swing.JFrame {
         });
 
         btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/prohibido.png"))); // NOI18N
+        btnCancelar.setToolTipText("Cancelar");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelarActionPerformed(evt);

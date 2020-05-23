@@ -93,6 +93,7 @@ public class FrmPantallaInicio extends javax.swing.JFrame {
         jPanel1.add(txtMensaje, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 80, 446, 40));
 
         lblEnviar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/send.png"))); // NOI18N
+        lblEnviar.setToolTipText("Publicar");
         lblEnviar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 lblEnviarActionPerformed(evt);

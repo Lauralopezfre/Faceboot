@@ -62,6 +62,7 @@ public class BusquedaPosts extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/transparenciaC.png"))); // NOI18N
+        btnBuscar.setToolTipText("Buscar");
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBuscarActionPerformed(evt);
@@ -71,6 +72,7 @@ public class BusquedaPosts extends javax.swing.JFrame {
         txtBusqueda.setFont(new java.awt.Font("Calibri Light", 0, 18)); // NOI18N
 
         btnRegresar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/regreso.png"))); // NOI18N
+        btnRegresar.setToolTipText("Regresar");
         btnRegresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRegresarActionPerformed(evt);

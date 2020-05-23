@@ -103,6 +103,7 @@ public class Publicacion extends javax.swing.JPanel {
         add(txtComentario, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 300, 470, 40));
 
         btnEnviar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/send.png"))); // NOI18N
+        btnEnviar.setToolTipText("Comentar");
         btnEnviar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnEnviar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

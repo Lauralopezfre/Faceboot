@@ -245,9 +245,9 @@ public class FrmUsuario extends javax.swing.JFrame {
         btnAgregarPelicula.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/add.png"))); // NOI18N
         btnAgregarPelicula.setText("Agregar película");
         btnAgregarPelicula.setActionCommand("Agregar pelicula");
-        btnAgregarPelicula.setBackground(new java.awt.Color(204, 204, 204));
         btnAgregarPelicula.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnAgregarPelicula.setFont(new java.awt.Font("Calibri Light", 0, 18)); // NOI18N
+        btnAgregarPelicula.setToolTipText("Agregar película");
         btnAgregarPelicula.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAgregarPeliculaActionPerformed(evt);
@@ -257,9 +257,9 @@ public class FrmUsuario extends javax.swing.JFrame {
 
         btnAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/si.png"))); // NOI18N
         btnAceptar.setText("Aceptar");
-        btnAceptar.setBackground(new java.awt.Color(204, 204, 204));
         btnAceptar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnAceptar.setFont(new java.awt.Font("Calibri Light", 0, 18)); // NOI18N
+        btnAceptar.setToolTipText("Aceptar");
         btnAceptar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAceptarActionPerformed(evt);
@@ -269,9 +269,9 @@ public class FrmUsuario extends javax.swing.JFrame {
 
         btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/prohibido.png"))); // NOI18N
         btnCancelar.setText("Cancelar");
-        btnCancelar.setBackground(new java.awt.Color(204, 204, 204));
         btnCancelar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnCancelar.setFont(new java.awt.Font("Calibri Light", 0, 18)); // NOI18N
+        btnCancelar.setToolTipText("Cancelar");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelarActionPerformed(evt);
